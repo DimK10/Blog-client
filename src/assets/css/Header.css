@@ -1,0 +1,9 @@
+.image {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
+        url("../images/autumn_mountains_reflection_evening.jpg");
+    background-position: 50% 30%;
+    background-size: cover;
+    height: 30em;
+    text-align: center;
+}
