@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 import 'w3-css/w3.css';
+import './assets/css/styles.css';
 
 ReactDOM.render(<Routes />, document.getElementById('root'));
 

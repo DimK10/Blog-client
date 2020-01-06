@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 
 class Menu extends Component {
     constructor(props) {
         super(props);
+
         this.smallNav = React.createRef();
         this.handleResizeToPhone = this.handleResizeToPhone.bind(this);
     };
@@ -23,7 +24,7 @@ class Menu extends Component {
             
             <div>
                 <div className="w3-bar w3-black">
-                    <Link 
+                    <NavLink 
                         className="w3-bar-item
                         w3-button 
                         w3-bottombar 
@@ -33,7 +34,7 @@ class Menu extends Component {
                         to="/"
                     >
                         Home
-                    </Link>
+                    </NavLink>
 
 
                     <button 
