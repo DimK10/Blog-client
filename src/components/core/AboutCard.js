@@ -11,15 +11,16 @@ const AboutCard = (props) => {
                     <p>This blog is dedicated to nature</p>
                     <div className="w3-row">
                         <div className="w3-col m8 s12">
-                            <button className="w3-button w3-padding-large w3-white w3-border">
-                                <b>READ MORE »</b>
-                            </button>
+                            <p>
+                                <button className="w3-button w3-padding-large w3-white w3-border">
+                                    <b>READ MORE »</b>
+                                </button>
+                            </p>
                         </div>
                     </div>
                 </div>
              </div>
-            <hr>
-            </hr>
+            
        </React.Fragment>
     );
 };
