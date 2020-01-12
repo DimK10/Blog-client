@@ -1,48 +1,69 @@
 body,
-		h1,
-		h2,
-		h3,
-		h4,
-		h5 {
-			font-family: "Raleway", sans-serif
-		}
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-family: "Raleway", sans-serif;
+	height: 100%;
+}
 
-		
-		.w3-bar-item {
-			color: 	#DCDCDC;
-		}
 
-		 .w3-bar-item:hover {
-			transition: ease-in-out 0.3s !important;
-			background-color: black !important;
-			color: white !important;
-			
-		}
+.w3-bar-item {
+	color: 	#DCDCDC;
+}
 
-		.w3-button:hover {
-			transition: ease-in-out 0.3s;
-		}
+	.w3-bar-item:hover {
+	transition: ease-in-out 0.3s !important;
+	background-color: black !important;
+	color: white !important;
+	
+}
 
-		.w3-ul .w3-padding-16:hover {
-			transition: ease-in-out 0.3s;
-		}
+.w3-button:hover {
+	transition: ease-in-out 0.3s;
+}
 
-		.active {
-			color: white !important;
-			
-			border-bottom-color: white !important;
-		}
-		.w3-hover-border-white {
-			border-width: medium !important;
-		}
+.w3-ul .w3-padding-16:hover {
+	transition: ease-in-out 0.3s;
+}
 
-        .image {
-            background-image:
-                linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
-                url("../images/autumn_mountains_reflection_evening.jpg");
-            background-position: 50% 30%;
-            background-size: cover;
-            height: 30em;
-            text-align: center;
-            /* color: aliceblue; */
-        }
+.active {
+	color: white !important;
+	
+	border-bottom-color: white !important;
+}
+.w3-hover-border-white {
+	border-width: medium !important;
+}
+
+.image {
+	background-image:
+		linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
+		url("../images/autumn_mountains_reflection_evening.jpg");
+	background-position: 50% 30%;
+	background-size: cover;
+	height: 30em;
+	text-align: center;
+	/* color: aliceblue; */
+}
+
+.w3-container {
+	height: 100%;
+}
+
+.display-linebreak {
+	white-space: pre-line;
+}
+
+#post-container {
+	padding: 0 !important;
+}
+
+#post-content {
+	margin: 0 4em 2em 4em;
+}
+
+#post-text {
+	color: rgba(0, 0, 0, 0.84);
+}

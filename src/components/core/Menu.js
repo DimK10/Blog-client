@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Link, withRouter } from "react-router-dom";
-
+ 
 class Menu extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ class Menu extends Component {
     render() {
         return (
             
-            <div>
+            <div style={{width: '100%'}}>
                 <div className="w3-bar w3-black">
                     <NavLink 
                         className="w3-bar-item

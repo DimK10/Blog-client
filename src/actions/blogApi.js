@@ -35,12 +35,7 @@ export const receive_error = (error) => {
     };
   };
 
-  const addImage = (image) => {
-      return {
-          type: "ADD_IMAGE",
-          image
-      }
-  }
+
 
 export const fetchPosts =() => {
     store.dispatch(fetch_posts());

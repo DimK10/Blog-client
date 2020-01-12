@@ -1,9 +1,22 @@
 import React from 'react';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
+import { Link } from 'react-router-dom';
 import {API} from '../../config';
 
+
 const PostCard = (props) => {
+
+    const consoleProps = (p) => {
+        console.log('props ', p);
+    };
+    const showShortDesc = (description) => {
+        const  indexOfDot = description.indexOf('.');
+        let shortDesc = description.substring(0, indexOfDot);
+        console.log('shortDesc ', shortDesc);
+        return shortDesc;
+    };
+
     return(
         <div className={props.class}>
             {props.post.photoId ? <img src={`${API}/post/image/${props.post._id}`}  style={{width:"100%"}}/>  :  <Skeleton /> }
@@ -15,7 +28,7 @@ const PostCard = (props) => {
                     {props.post.title}
                 </h3>
                 <h5>
-                    Title description, 
+                     
                     <span className="w3-opacity">{/* fetch createdAt here */}{moment(props.post.created_at).fromNow() + ' '}</span>
                         by <span className="w3-tag">{/*author here -- clickable*/}{props.post.author.name}</span>
                 </h5>
@@ -26,14 +39,25 @@ const PostCard = (props) => {
                     Dummy text hereDummy text hereDummy text hereDummy text here
                     Dummy text hereDummy text hereDummy text here
                     Dummy text hereDummy text hereDummy text here. */}
-                    {props.post.description}
+                    {showShortDesc(props.post.description)}
                     {/* {JSON.stringify(props.images)} */}
+                    {consoleProps(props)}
                 </p>
                 <div className="w3-row">
                     <div className="w3-col m8 s12">
                         <p>
-                            <button className="w3-button w3-padding-large w3-white w3-border">
+                            <button className="w3-button w3-padding-large w3-white w3-border">    
+                            <Link
+                                to={{
+                                    pathname: `/post/${props.post._id}`,
+                                    state: { post: props.post}
+                                }}
+                            >
                                 <b>READ MORE</b>
+                            </Link>
+
+                        >
+                            
                             </button>
                         </p>
                     </div>

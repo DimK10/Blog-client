@@ -14,6 +14,8 @@ const Home = (props) => {
         props.dispatch(fetchPosts());
     }, []);
 
+   
+
     return (
 
         <div className="w3-light-grey">
@@ -21,9 +23,7 @@ const Home = (props) => {
             <Layout />
                 <div className="w3-row">
                     <div className="w3-col l7 s12">
-                        {/* <PostCard class={"w3-card-4 w3-margin w3-white"}/> */}
-                        {/* <PostCard class={"w3-card-4 w3-margin w3-white"}/> */}
-                        {/* {JSON.stringify(props.data)} */}
+                        
                         {props.data.posts.map((post) => {
                             return <PostCard 
                                         class={"w3-card-4 w3-margin w3-white"} 
@@ -33,6 +33,7 @@ const Home = (props) => {
                                         images={props.data.images}
                                     />
                         })}
+                        
 
                     </div>
                     
