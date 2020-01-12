@@ -41,7 +41,7 @@ const Home = (props) => {
                     </div>
                     <br/>
                 </div>
-            <Footer />
+            {/* <Footer /> */}
             </div>
         </div>
     )
