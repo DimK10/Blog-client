@@ -1,25 +1,33 @@
 import React from 'react';
+import moment from 'moment';
+import Skeleton from 'react-loading-skeleton';
+import {API} from '../../config';
 
 const PostCard = (props) => {
     return(
         <div className={props.class}>
+            {props.post.photoId ? <img src={`${API}/post/image/${props.post._id}`}  style={{width:"100%"}}/>  :  <Skeleton /> }
             {/* fetch here post img -- style = width:100%*/}
+            
             <div className="w3-container">
                 <h3>
-                    Post Title here
+                    {/* Post Title here */}
+                    {props.post.title}
                 </h3>
                 <h5>
                     Title description, 
-                    <span className="w3-opacity">{/* fetch createdAt here */}</span>
-                        by <span className="w3-tag">{/*author here -- clickable*/}</span>
+                    <span className="w3-opacity">{/* fetch createdAt here */}{moment(props.post.created_at).fromNow() + ' '}</span>
+                        by <span className="w3-tag">{/*author here -- clickable*/}{props.post.author.name}</span>
                 </h5>
             </div>
             <div className="w3-container">
                 <p>
-                    Dummy text here.Dummy text hereDummy text hereDummy text hereDummy text hereDummy text here
+                    {/* Dummy text here.Dummy text hereDummy text hereDummy text hereDummy text hereDummy text here
                     Dummy text hereDummy text hereDummy text hereDummy text here
                     Dummy text hereDummy text hereDummy text here
-                    Dummy text hereDummy text hereDummy text here.
+                    Dummy text hereDummy text hereDummy text here. */}
+                    {props.post.description}
+                    {/* {JSON.stringify(props.images)} */}
                 </p>
                 <div className="w3-row">
                     <div className="w3-col m8 s12">
