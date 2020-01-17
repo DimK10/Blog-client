@@ -3,6 +3,7 @@ import Layout from './Layout';
 import Footer from './Footer';
 import PostCard from './PostCard';
 import AboutCard from './AboutCard';
+import SignIn from '../user/SignIn';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../actions/blogApi';
 
@@ -14,17 +15,14 @@ const Home = (props) => {
         props.dispatch(fetchPosts());
     }, []);
 
-   
-
-    return (
-
+   const showHome = () => (
         <div className="w3-light-grey">
             <div className="w3-content" style={{maxWidth: '1900px' }}>
-            <Layout />
+                <Layout />
                 <div className="w3-row">
                     <div className="w3-col l7 s12">
-                        
-                        {props.data.posts.map((post) => {
+                        {/* {JSON.stringify(props)} */}
+                        {props.data.asyncReducer.posts.map((post) => {
                             return <PostCard 
                                         class={"w3-card-4 w3-margin w3-white"} 
                                         post = {post} 
@@ -44,7 +42,24 @@ const Home = (props) => {
                 </div>
             {/* <Footer /> */}
             </div>
+            <SignIn />
         </div>
+    );
+
+    const showSignIn = () => (
+        <React.Fragment>
+            {JSON.stringify(props.data.modalsReducer.toggleSignInModal)}
+            {props.data.modalsReducer.toggleSignInModal && <SignIn />}
+            
+        </React.Fragment>
+    );
+
+    return (
+        <React.Fragment>
+            {/* {showSignIn()} */}
+            {showHome()}
+        </React.Fragment>
+        
     )
 };
 

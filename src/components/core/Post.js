@@ -25,7 +25,9 @@ const Post = (props) => {
     return (
         <div className="w3-container w3-light-grey" id = "post-container">
             <Menu />
-            
+
+            <div className="w3-col s12">
+
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
                 {post.photoId ? <img src={`${API}/post/image/${post._id}`}  style={{width:"100%"}}/>  : undefined }
@@ -58,6 +60,9 @@ const Post = (props) => {
                 
             </div>
             <ScrollUpButton />
+            </div>
+            
+           
         </div>
         
     );

@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { NavLink, Link, withRouter } from "react-router-dom";
- 
+import { connect } from 'react-redux';
+import SignIn from '../user/SignIn';
+import {toggleSignInModal} from '../../actions/modals';
+
+import store from '../../store/configureStore'; 
 class Menu extends Component {
     constructor(props) {
         super(props);
 
         this.smallNav = React.createRef();
         this.handleResizeToPhone = this.handleResizeToPhone.bind(this);
+        this.handleSignInModal = this.handleSignInModal.bind(this);
+        this.state = {
+            signInModalIsOpen: this.props.signInModalIsOpen
+        };
     };
 
     handleResizeToPhone() {
@@ -17,6 +25,13 @@ class Menu extends Component {
         } else {
             smallNav.current.className = smallNav.current.className.replace(" w3-show", "");
         };
+    };
+
+    handleSignInModal = (prevState) => {
+        this.setState({ signInModalIsOpen: !prevState.signInModalIsOpen }, () => {
+            this.props.toggleSignInModal(this.props.signInModalIsOpen);
+            console.log('store in handleSignInModal: ', store.getState());
+        });
     };
 
     render() {
@@ -35,6 +50,18 @@ class Menu extends Component {
                     >
                         Home
                     </NavLink>
+                    <button 
+                        className="w3-bar-item
+                            w3-button 
+                            w3-right
+                            w3-bottombar 
+                            w3-border-black 
+                            w3-hover-border-white 
+                            w3-hide-small"
+                        onClick={this.handleSignInModal}
+                    >
+                        Sign In
+                    </button>
 
 
                     <button 
@@ -64,4 +91,14 @@ class Menu extends Component {
     
 };
 
-export default withRouter(Menu);
+const mapStateToProps = ({signInModalIsOpen}) => ({
+    signInModalIsOpen
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        toggleSignInModal: () => dispatch(toggleSignInModal(ownProps.signInModalIsOpen))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Menu));

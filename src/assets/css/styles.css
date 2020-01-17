@@ -8,6 +8,11 @@ h5 {
 	height: 100%;
 }
 
+/* remove display: none which is default */
+.w3-modal {
+	display: flex;
+}
+
 
 .w3-bar-item {
 	color: 	#DCDCDC;

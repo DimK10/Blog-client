@@ -33,7 +33,14 @@ export const receive_error = (error) => {
       type: "RECEIVE_ERROR",
       error
     };
-  };
+};
+
+export const sign_in = (formData) => {
+    return {
+        type: "SIGN_IN",
+        formData
+    };
+};
 
 
 
