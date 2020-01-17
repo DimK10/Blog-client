@@ -41,6 +41,8 @@ const SignIn = (props) => {
     const clickSubmit = (event) => {
         event.preventDefault();
         setValues({...values, error: false});
+        console.log('email: ', email);
+        console.log('password: ', password);
         signIn({ email, password })
         .then(data => {
             console.log('DATA: ', data);
@@ -87,15 +89,17 @@ const SignIn = (props) => {
                             className="w3-input w3-border w3-margin-bottom" 
                             type="email" 
                             placeholder="Enter Username"
-                            defaultValue={email}
+                            defaultValue={values.email}
+                            onChange={handleChange('email')}
                             required
                         />
                         <label><b>Password</b></label>
                         <input 
-                            className="w3-input w3-border w3-margin-bottom" 
+                            className="w3-input w3-border w3-margin-bott12om" 
                             type="password" 
                             placeholder="Enter Password"
-                            defaultValue={email}
+                            defaultValue={values.password}
+                            onChange={handleChange('password')}
                             required
                         />
                         <button 
@@ -136,6 +140,8 @@ const SignIn = (props) => {
         };
 
         if(isAuthenticated()) {
+            console.log('should close modal and redirect');
+            // props.toggleSignInModal();
             return <Redirect to="/" />
         };
     }
@@ -144,7 +150,7 @@ const SignIn = (props) => {
         <React.Fragment>
             {showError()}
             {signinForm()}
-            {redirectUser()}
+            {/* {redirectUser()} */}
         </React.Fragment>
     );
 };

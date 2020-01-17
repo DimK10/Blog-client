@@ -84,6 +84,7 @@ class Menu extends Component {
                         Home
                     </Link>
                 </div>
+                <SignIn />
             </div>
                 
         );

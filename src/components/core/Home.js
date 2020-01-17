@@ -42,21 +42,12 @@ const Home = (props) => {
                 </div>
             {/* <Footer /> */}
             </div>
-            <SignIn />
-        </div>
-    );
-
-    const showSignIn = () => (
-        <React.Fragment>
-            {JSON.stringify(props.data.modalsReducer.toggleSignInModal)}
-            {props.data.modalsReducer.toggleSignInModal && <SignIn />}
             
-        </React.Fragment>
+        </div>
     );
 
     return (
         <React.Fragment>
-            {/* {showSignIn()} */}
             {showHome()}
         </React.Fragment>
         
