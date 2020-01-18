@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import Modal from 'react-modal';
 import {connect} from 'react-redux';
 import {signIn, authenticate ,isAuthenticated} from '../../API/auth/index';
 import {toggleSignInModal} from '../../actions/modals';
+import store from '../../store/configureStore';
 let FormData = require('react-form-data');
 
 
@@ -41,20 +42,22 @@ const SignIn = (props) => {
     const clickSubmit = (event) => {
         event.preventDefault();
         setValues({...values, error: false});
-        console.log('email: ', email);
-        console.log('password: ', password);
+        // console.log('email: ', email);
+        // console.log('password: ', password);
         signIn({ email, password })
         .then(data => {
             console.log('DATA: ', data);
 
-            if(data.error) {
-                setValues({...values, error: data.error});
+            if(data.err) {
+                
+                setValues({...values, error: data.err});
             } else {
                 authenticate(data, () => {
                     setValues({
                         ...values, 
                         redirectToReferrer: true
                     });
+                    redirectUser();
                 });
             };
         });
@@ -71,7 +74,8 @@ const SignIn = (props) => {
         >
             
             <div className="w3-modal-content w3-card w3-animate-zoom" style={{ maxWidth: '600px' }}>
-                <div className="w3-center">
+                <div className="w3-center w3-section">
+                    
                     <span 
                         onClick={handleCloseModal} 
                         className="w3-button w3-xlarge w3-hover-red w3-display-topright" 
@@ -80,15 +84,22 @@ const SignIn = (props) => {
                     {/* TODO - add fontawesome X */}
                         &times; 
                     </span>
+                    
                     {/* TODO - add fontawesome user  */}
                 </div>
                 <form className="w3-container">
+                
                     <div className="w3-section">
+                    <div className="w3-content">
+                        <div className="w3-row">
+                        {showError()}
+                        </div>
+                    </div>
                         <label><b>Email</b></label>
                         <input 
                             className="w3-input w3-border w3-margin-bottom" 
                             type="email" 
-                            placeholder="Enter Username"
+                            placeholder="Enter Email"
                             defaultValue={values.email}
                             onChange={handleChange('email')}
                             required
@@ -103,7 +114,7 @@ const SignIn = (props) => {
                             required
                         />
                         <button 
-                        className="w3-button w3-block w3-green w3-section w3-padding" 
+                        className="w3-button w3-block w3-black w3-section w3-padding" 
                         onClick={clickSubmit}
                         >
                             Login
@@ -125,8 +136,15 @@ const SignIn = (props) => {
     );
 
     const showError = () => (
-        <div className="w3-panel w3-pale-red w3-border" style={{display: error ? '' : 'none'}}>
-            {error}
+        <div className="w3-panel w3-pale-red w3-border errorMessage" style={{display: values.error ? '' : 'none'}}>
+            <div className="error">
+                {values.error}
+            </div>
+            <div className="closeMessage">
+                <span className="w3-button closeIcon">
+                    &times; 
+                </span>
+            </div>
         </div>
     );
 
@@ -141,14 +159,21 @@ const SignIn = (props) => {
 
         if(isAuthenticated()) {
             console.log('should close modal and redirect');
-            // props.toggleSignInModal();
-            return <Redirect to="/" />
+            console.log('props.location ', props.location);
+            props.toggleSignInModal();
+            console.log('store state ', store.getState());
+            console.log('modalIsOpen in props ', props.modalIsOpen);
+            
+            // return <Redirect to={props.location.pathname} />
+            props.history.push({
+                pathname: props.location.pathname,
+                state: props.location.state
+            });
         };
     }
 
     return (
         <React.Fragment>
-            {showError()}
             {signinForm()}
             {/* {redirectUser()} */}
         </React.Fragment>
@@ -163,4 +188,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));

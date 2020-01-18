@@ -17,6 +17,43 @@ export const signIn = (formData) => {
     });
 };
 
+export const signout = (next) => {
+    // Remove token from localStorage
+    if(typeof window !== 'undefined') {
+        localStorage.removeItem('jwt');
+        next();
+        return fetch(`${API}/signout`,{
+            method: "GET"
+        })
+        .then(response => {
+            console.log('signout ', response);
+        })
+        .catch(err => console.log(err));
+    };
+};
+
+export const authenticateForAction = (data, next) => {
+    if(data.err) {
+        // user not found
+        return false;
+    };
+    const { token, user } = data;
+    return fetch(`${API}/user/${user._id}`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then((response) => {
+        if(response.error) {
+            // console.log('response.error in authForAction: ', response.error);
+            return false;
+        };
+
+        return true;
+    });
+};
+
 export const authenticate = (data, next) => {
     //save token to localStorage
     if(typeof window !== 'undefined') {
@@ -31,8 +68,13 @@ export const isAuthenticated = () => {
     };
 
     if(localStorage.getItem('jwt')) {
-        return JSON.parse(localStorage.getItem('jwt'));
-    } else {
-        return false;
+        // Additional check for user
+        if(authenticateForAction(JSON.parse(localStorage.getItem('jwt')))) {
+            return JSON.parse(localStorage.getItem('jwt'));
+        };
+        
     };
+    
+    return false;
+    
 };
