@@ -5,6 +5,7 @@ import ReactHtmlParser from 'react-html-parser';
 import nl2br from 'react-newline-to-break';
 import {CircleArrow as ScrollUpButton} from "react-scroll-up-button";
 import {API} from '../../config';
+import noImg from '../../assets/images/no-thumbnail-medium.png'
 
 
 const Post = (props) => {
@@ -30,7 +31,7 @@ const Post = (props) => {
 
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
-                {post.photoId ? <img src={`${API}/post/image/${post._id}`}  style={{width:"100%"}}/>  : undefined }
+                {post.photoId ? <img src={`${API}/post/image/${post._id}`}  style={{width:"100%"}}/>  : <img src={noImg}  style={{width:"100%"}}/> }
                 <div className="w3-container w3-center">
                     <h2>{post.title}</h2>
                     
