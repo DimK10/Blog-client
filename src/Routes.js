@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './components/core/Home';
 import Post from './components/core/Post';
+import CreatePost from './components/user/CreatePost';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // import { connect } from 'react-redux';
 
@@ -15,10 +16,12 @@ const Routes = (props) => {
     <BrowserRouter>
         <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/create-new-post" exact component={CreatePost} />
             <Route 
                 path="/post/:postId" 
                 exact
-                render={({ location }) => <Post {...location} /> }  />
+                render={({ location }) => <Post {...location} /> }  
+            />
         </Switch>
     </BrowserRouter>
 )};

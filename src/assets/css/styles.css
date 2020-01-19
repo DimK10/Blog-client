@@ -126,4 +126,8 @@ h5 {
 	transition: ease-in-out 0.3s !important;
 }
 
+.ck.ck-content {
+	min-height: 400px;
+}
+
 

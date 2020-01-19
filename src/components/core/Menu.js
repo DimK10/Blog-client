@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { NavLink, Link, withRouter } from "react-router-dom";
+import { NavLink, IndexLink, Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import SignIn from '../user/SignIn';
 import {toggleSignInModal} from '../../actions/modals';
@@ -49,6 +49,7 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
+                    activeClassName="active"
                     to="/"
                 >
                     Home
@@ -108,6 +109,7 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
+                    activeClassName="active"
                     to="/"
                 >
                     Home
@@ -119,6 +121,7 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
+                    // activeClassName="active"
                     to="/posts-by-interest"
                 >
                     Interests
@@ -130,10 +133,12 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
+                    // activeClassName="active"
                     to="/explore-new-posts"
                 >
                     Explore
                 </NavLink>
+                
                 <span 
                     className="w3-bar-item
                         w3-button 
@@ -148,6 +153,19 @@ class Menu extends Component {
                 >
                     Sign Out
                 </span>
+                <NavLink 
+                    className="w3-bar-item
+                    w3-button 
+                    w3-right
+                    w3-bottombar 
+                    w3-border-black 
+                    w3-hover-border-white 
+                    w3-hide-small"
+                    // activeClassName="active"
+                    to="/create-new-post"
+                >
+                    Create New Post
+                </NavLink>
 
 
                 <button 
