@@ -3,6 +3,8 @@ import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import {API} from '../../config';
+import FontAwesome from 'react-fontawesome';
+import noImg from '../../assets/images/no-thumbnail-medium.png';
 
 
 const PostCard = (props) => {
@@ -19,7 +21,15 @@ const PostCard = (props) => {
 
     return(
         <div className={props.class}>
-            {props.post.photoId ? <img src={`${API}/post/image/${props.post._id}`}  style={{width:"100%"}}/>  :  <Skeleton /> }
+            <div className="img-container">
+            {props.post.photoId 
+            ? 
+                <img src={`${API}/post/image/${props.post._id}`}  style={{width:"100%"}}/>  
+            :  
+                <img src={noImg}  style={{width:"100%"}}/>
+                
+            }
+            </div>
             {/* fetch here post img -- style = width:100%*/}
             
             <div className="w3-container">
