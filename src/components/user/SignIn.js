@@ -5,7 +5,9 @@ import {connect} from 'react-redux';
 import {signIn, authenticate ,isAuthenticated} from '../../API/auth/index';
 import {toggleSignInModal} from '../../actions/modals';
 import store from '../../store/configureStore';
-let FormData = require('react-form-data');
+// let FormData = require('react-form-data');
+import FontAwesome from 'react-fontawesome';
+
 
 
 
@@ -78,11 +80,12 @@ const SignIn = (props) => {
                     
                     <span 
                         onClick={handleCloseModal} 
-                        className="w3-button w3-xlarge w3-hover-red w3-display-topright" 
-                        title="Close Modal"
+                        className="w3-button w3-xlarge w3-hover-white w3-display-topright closeBtn" 
+                        title="Close This Window"
                     >
                     {/* TODO - add fontawesome X */}
-                        &times; 
+                        {/* &times;  */}
+                        <FontAwesome name="times" />
                     </span>
                     
                     {/* TODO - add fontawesome user  */}
@@ -138,10 +141,10 @@ const SignIn = (props) => {
     const showError = () => (
         <div className="w3-panel w3-pale-red w3-border errorMessage" style={{display: values.error ? '' : 'none'}}>
             <div className="error">
-                {values.error}
+                {'❌ ' + values.error}
             </div>
             <div className="closeMessage">
-                <span className="w3-button closeIcon">
+                <span className="w3-button closeIcon w3-hover-pale-red">
                     &times; 
                 </span>
             </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { NavLink, Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import SignIn from '../user/SignIn';
@@ -85,6 +86,12 @@ class Menu extends Component {
                 >
                     Home
                 </Link>
+                <button 
+                    className="w3-bar-item w3-button"
+                    onClick={this.handleSignInModal}
+                >
+                    Sign In
+                </button>
             </div>
             <SignIn />
         </div>
@@ -92,7 +99,7 @@ class Menu extends Component {
     );
 
     userRender = () => (
-        <div style={{width: '100%'}}>
+        <div className="header" style={{width: '100%'}}>
             <div className="w3-bar w3-black">
                 <NavLink 
                     className="w3-bar-item
@@ -156,7 +163,7 @@ class Menu extends Component {
             </div>
             
             <div ref={this.smallNav} className="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium">
-                <Link 
+                 <Link 
                     className="w3-bar-item w3-button"
                     to="/"
                 >
@@ -174,7 +181,16 @@ class Menu extends Component {
                 >
                     Explore
                 </Link>
+                <button 
+                    className="w3-bar-item w3-button"
+                    onClick={() => signout(() =>{
+                        this.props.history.push('/');
+                    })}
+                >
+                    Sign Out
+                </button>
             </div>
+           
             <SignIn />
         </div>
     );

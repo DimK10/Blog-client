@@ -11,6 +11,12 @@ h5 {
 /* remove display: none which is default */
 .w3-modal {
 	display: flex;
+	align-items: center;
+}
+
+.w3-modal-content {
+	align-self: center;
+	flex:1;
 }
 
 
@@ -61,6 +67,10 @@ h5 {
 	white-space: pre-line;
 }
 
+#content {
+	min-height: 100vh;
+}
+
 #post-container {
 	padding: 0 !important;
 }
@@ -100,4 +110,18 @@ h5 {
 
 .w3-input {
 	border-radius: 2px;
+}
+
+.closeBtn {
+	padding: 4px 16px;
+}
+
+.closeBtn:hover {
+	
+	color: 	#707070 !important;
+	transition: ease-in-out 0.3s;
+}
+
+.w3-show {
+	transition: ease-in-out 0.3s !important;
 }

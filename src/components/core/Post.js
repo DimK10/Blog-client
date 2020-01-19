@@ -26,7 +26,7 @@ const Post = (props) => {
         <div className="w3-container w3-light-grey" id = "post-container">
             <Menu />
 
-            <div className="w3-col s12">
+            <div className="w3-col s12" id="content">
 
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
