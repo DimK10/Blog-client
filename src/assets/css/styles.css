@@ -48,6 +48,12 @@ h5 {
 	border-width: medium !important;
 }
 
+/* about card in main page */
+#about-card {
+	position: sticky;
+	top: 0;
+}
+
 .image {
 	background-image:
 		linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
@@ -125,7 +131,7 @@ h5 {
 .w3-show {
 	transition: ease-in-out 0.3s !important;
 }
-
+/* ck editor */
 .ck.ck-content {
 	min-height: 400px;
 }

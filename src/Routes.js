@@ -16,6 +16,7 @@ const Routes = (props) => {
     <BrowserRouter>
         <Switch>
             <Route path="/" exact component={Home} />
+            {/** TODO - Make this a private route */}
             <Route path="/create-new-post" exact component={CreatePost} />
             <Route 
                 path="/post/:postId" 

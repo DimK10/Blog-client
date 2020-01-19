@@ -35,7 +35,7 @@ const Home = (props) => {
 
                     </div>
                     
-                    <div className="w3-col l4">
+                    <div className="w3-col l4" id="about-card">
                         <AboutCard />
                     </div>
                     <br/>
