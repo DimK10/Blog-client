@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Menu from '../core/Menu';
+import PreviewPost from './PreviewPost';
+import Modal from 'react-modal';
 import ImageUploader from 'react-images-upload';
 import { useForm } from 'react-hook-form'
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -9,7 +11,10 @@ import '@ckeditor/ckeditor5-theme-lark';
 const CreatePost = (props) => {
     
     const [pictures, setPictures] = useState([]);
-    const { register, handleSubmit, watch, errors } = useForm()
+    const [titleForPreview, setTitleForPreview] = useState('');
+    const [descForPreview, setDescForPreview] = useState('');
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => { console.log(data) }
 
     const onDrop = (picture) => {
@@ -21,6 +26,28 @@ const CreatePost = (props) => {
     useEffect(() => {
         console.log('pictures in create post ', pictures);
     }, [pictures]);
+
+    const handleTitleChange = event => {
+        console.log('title ', event.target.value);
+        setTitleForPreview(event.target.value);
+    };
+
+    const handlePreview = () => {
+        setModalIsOpen(!modalIsOpen);
+    };
+
+    const preview = () => (
+        <Modal 
+            // className="w3-modal"
+            isOpen={modalIsOpen}
+        >
+            <PreviewPost isPreview={true} image={pictures} title={titleForPreview} desc={descForPreview} />
+            <button className="w3-button w3-margin w3-black w3-section w3-padding" onClick={handlePreview}>
+                Close Preview
+            </button>
+
+        </Modal>
+    );
 
     return(
         <React.Fragment>
@@ -49,6 +76,7 @@ const CreatePost = (props) => {
                                     name="title"
                                     placeholder="Enter The Post's Title"
                                     required
+                                    onChange={handleTitleChange}
                                     ref={register({ required: true })}
                                 />
                                <div className="w3-row">
@@ -63,6 +91,7 @@ const CreatePost = (props) => {
                                     } }
                                     onChange={ ( event, editor ) => {
                                         const data = editor.getData();
+                                        setDescForPreview({ data });
                                         console.log( { event, editor, data } );
                                     } }
                                     onBlur={ ( event, editor ) => {
@@ -72,17 +101,28 @@ const CreatePost = (props) => {
                                         console.log( 'Focus.', editor );
                                     } }
                                 />
-                                <input 
-                                    className="w3-button w3-block w3-black w3-section w3-padding" 
-                                    type="submit"
-                                    value="Create Post"
-                                />
+                                <div className="w3-row">
+                                    
+                                    <input 
+                                        className="w3-button w3-margin w3-black w3-section w3-padding" 
+                                        type="submit"
+                                        value="Create Post"
+                                    />
+                                    
+                                   
+                                   <button className="w3-button w3-margin w3-black w3-section w3-padding" onClick={handlePreview}>
+                                        Preview Post
+                                    </button>
+                                  
+                                    
+                                </div>
                                     
                                 
                             </div>
                         </form>
                     </div>
                 </div>
+                {preview()}
             </div>
         </React.Fragment>
     );
