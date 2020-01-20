@@ -1,11 +1,10 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 // import Menu from './Menu';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
 import nl2br from 'react-newline-to-break';
-import {CircleArrow as ScrollUpButton} from "react-scroll-up-button";
 import {API} from '../../config';
-import noImg from '../../assets/images/no-thumbnail-medium.png'
+import noImg from '../../assets/images/no-thumbnail-medium.png';
 
 
 const PreviewPost = (props) => {
@@ -26,21 +25,35 @@ const PreviewPost = (props) => {
     };
 
     const createUrl = () => {
-        let url = URL.createObjectURL(props.image[0]);
-        setUrl(url);
-        return url;
+        console.log(props.image[0][0]);
+        let reader = new FileReader();
+        let urlImg = window.URL.createObjectURL(props.image[0][0]);
+        console.log('urlImg ', urlImg);
+        setUrl(urlImg);
+        return urlImg
     };
+
+    useEffect(() => {
+        if(props.image.length > 0) {
+            createUrl();
+        }
+    },[props.image]);
     
 
     return (
+       
         <div className="w3-container w3-light-grey" id = "post-container">
-            {/* <Menu /> */}
+            
 
             <div className="w3-col s12" id="content">
-
+                <div style={{width: '100%'}}>
+                    <div className="w3-bar w3-black">
+            
+                    </div>
+                </div>
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
-                <img src={createUrl}  style={{width:"100%"}} alt=""/>
+                {props.image.length > 0 ? <img src={url}  style={{width:"100%"}} alt=""/> : <img src={noImg}  style={{width:"100%"}} alt=""/>}
                 <div className="w3-container w3-center">
                     <h2>{props.title}</h2>
                     
@@ -58,7 +71,7 @@ const PreviewPost = (props) => {
                                 </div>
                             
                                 <div className="w3-left-align w3-margin-bottom" id="post-text">
-                                    {JSON.stringify(props.desc)}
+                                    {ReactHtmlParser(props.desc.data)}
                                 </div>
                                 <div className="w3-margin-top"></div>
                             </div>
@@ -69,7 +82,7 @@ const PreviewPost = (props) => {
                 </div>
              
             </div>
-            <ScrollUpButton />
+            
             </div>
             
            

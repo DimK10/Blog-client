@@ -18,7 +18,7 @@ const CreatePost = (props) => {
     const onSubmit = data => { console.log(data) }
 
     const onDrop = (picture) => {
-        setPictures([...pictures, picture]);
+        setPictures([picture]);
     };
 
     
@@ -26,6 +26,14 @@ const CreatePost = (props) => {
     useEffect(() => {
         console.log('pictures in create post ', pictures);
     }, [pictures]);
+
+    useEffect(() => {
+        if(modalIsOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        };
+     }, [modalIsOpen]);
 
     const handleTitleChange = event => {
         console.log('title ', event.target.value);
@@ -38,8 +46,13 @@ const CreatePost = (props) => {
 
     const preview = () => (
         <Modal 
-            // className="w3-modal"
+            // className="w3-white"
             isOpen={modalIsOpen}
+            style={{
+                overlay: {
+                  backgroundColor: 'white'
+                }
+            }}
         >
             <PreviewPost isPreview={true} image={pictures} title={titleForPreview} desc={descForPreview} />
             <button className="w3-button w3-margin w3-black w3-section w3-padding" onClick={handlePreview}>
@@ -83,24 +96,27 @@ const CreatePost = (props) => {
                                <label className="w3-left w3-margin-bottom"><b>Post Description:</b></label>
 
                                </div>
+                                <div style={{display: modalIsOpen ? 'none' : ''}}>
                                 <CKEditor 
-                                    editor={ClassicEditor}
-                                    onInit={ editor => {
-                                        // You can store the "editor" and use when it is needed.
-                                        console.log( 'Editor is ready to use!', editor );
-                                    } }
-                                    onChange={ ( event, editor ) => {
-                                        const data = editor.getData();
-                                        setDescForPreview({ data });
-                                        console.log( { event, editor, data } );
-                                    } }
-                                    onBlur={ ( event, editor ) => {
-                                        console.log( 'Blur.', editor );
-                                    } }
-                                    onFocus={ ( event, editor ) => {
-                                        console.log( 'Focus.', editor );
-                                    } }
-                                />
+                                editor={ClassicEditor}
+                                onInit={ editor => {
+                                    // You can store the "editor" and use when it is needed.
+                                    console.log( 'Editor is ready to use!', editor );
+                                } }
+                                onChange={ ( event, editor ) => {
+                                    const data = editor.getData();
+                                    setDescForPreview({ data });
+                                    console.log( { event, editor, data } );
+                                } }
+                                onBlur={ ( event, editor ) => {
+                                    console.log( 'Blur.', editor );
+                                } }
+                                onFocus={ ( event, editor ) => {
+                                    console.log( 'Focus.', editor );
+                                } }
+                                
+                            />
+                                </div>
                                 <div className="w3-row">
                                     
                                     <input 
