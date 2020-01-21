@@ -50,6 +50,7 @@ class Menu extends Component {
                     w3-hover-border-white 
                     w3-hide-small"
                     activeClassName="active"
+                    exact={true}
                     to="/"
                 >
                     Home
@@ -110,6 +111,7 @@ class Menu extends Component {
                     w3-hover-border-white 
                     w3-hide-small"
                     activeClassName="active"
+                    exact={true}
                     to="/"
                 >
                     Home
@@ -121,7 +123,7 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
-                    // activeClassName="active"
+                    activeClassName="active"
                     to="/posts-by-interest"
                 >
                     Interests
@@ -133,7 +135,7 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
-                    // activeClassName="active"
+                    activeClassName="active"
                     to="/explore-new-posts"
                 >
                     Explore
@@ -161,7 +163,7 @@ class Menu extends Component {
                     w3-border-black 
                     w3-hover-border-white 
                     w3-hide-small"
-                    // activeClassName="active"
+                    activeClassName="active"
                     to="/create-new-post"
                 >
                     Create New Post

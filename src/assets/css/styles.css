@@ -91,8 +91,13 @@ h5 {
 	line-height: 2em;
 }
 
+#post-title {
+	font-weight: bold;
+}
+
 #post-text {
 	color: rgba(0, 0, 0, 0.84);
+	font-size: large;
 }
 
 .errorMessage {

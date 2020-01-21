@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import Menu from './Menu';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
@@ -33,6 +33,11 @@ const Post = (props) => {
             };
         };
     };
+
+    // Render at top of page
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[]);
     
 
     return (
@@ -43,9 +48,12 @@ const Post = (props) => {
 
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
+                <div className="w3-row w3-margin w3-center" id="post-title">
+                <h2>{props.state.post.title ? props.state.post.title : props.title}</h2>
+
+                </div>
                 {renderImage()}
                 <div className="w3-container w3-center">
-                    <h2>{props.state.post.title ? props.state.post.title : props.title}</h2>
                     
                     <div className="w3-container w3-center">
                     
