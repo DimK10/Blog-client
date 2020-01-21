@@ -45,12 +45,8 @@ const PreviewPost = (props) => {
         <div className="w3-container w3-light-grey" id = "post-container">
             
 
-            <div className="w3-col s12" id="content">
-                <div style={{width: '100%'}}>
-                    <div className="w3-bar w3-black">
-            
-                    </div>
-                </div>
+            <div className="w3-col s12 w3-light-grey" id="content">
+                
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
                 {props.image.length > 0 ? <img src={url}  style={{width:"100%"}} alt=""/> : <img src={noImg}  style={{width:"100%"}} alt=""/>}

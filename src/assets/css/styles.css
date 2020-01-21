@@ -75,14 +75,20 @@ h5 {
 
 #content {
 	min-height: 100vh;
+	/* test */
+	padding-top: 5em;
 }
 
 #post-container {
 	padding: 0 !important;
+	/* test */
+	word-wrap: break-word;
 }
 
 #post-content {
 	margin: 0 4em 2em 4em;
+	/* test */
+	line-height: 2em;
 }
 
 #post-text {
