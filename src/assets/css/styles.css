@@ -156,7 +156,14 @@ app .ql-container {
 	border-top-left-radius: 0.5em;
 	border-top-right-radius: 0.5em;
   }
-
+  .ql-editor .ql-video {
+    display: block;
+    max-width: 100%;
+	width: 50vw;
+	height: 50vh;
+	display: flex !important;
+	align-self: center;
+}
 /* ck editor */
 /* .ck.ck-content {
 	min-height: 400px;
