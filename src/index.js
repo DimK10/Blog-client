@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import 'w3-css/w3.css';
 import './assets/css/styles.css';
+import 'react-quill/dist/quill.snow.css';
 import store from './store/configureStore';
 
 const app = (

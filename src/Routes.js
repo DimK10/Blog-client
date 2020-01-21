@@ -3,6 +3,8 @@ import Home from './components/core/Home';
 import Post from './components/core/Post';
 import CreatePost from './components/user/CreatePost';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import UserRoute from './auth/UserRoute';
+import NotFound from './components/NotFound';
 // import { connect } from 'react-redux';
 
 
@@ -17,12 +19,13 @@ const Routes = (props) => {
         <Switch>
             <Route path="/" exact component={Home} />
             {/** TODO - Make this a private route */}
-            <Route path="/create-new-post" exact component={CreatePost} />
+            <UserRoute path="/create-new-post" exact component={CreatePost} />
             <Route 
                 path="/post/:postId" 
                 exact
                 render={({ location }) => <Post {...location} /> }  
             />
+            <Route path="/404-not-found" exact component={NotFound} />
         </Switch>
     </BrowserRouter>
 )};

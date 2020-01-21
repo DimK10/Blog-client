@@ -71,7 +71,7 @@ const PreviewPost = (props) => {
                                 </div>
                             
                                 <div className="w3-left-align w3-margin-bottom" id="post-text">
-                                    {ReactHtmlParser(props.desc.data)}
+                                    {ReactHtmlParser(props.desc)}
                                 </div>
                                 <div className="w3-margin-top"></div>
                             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {API} from '../../config';
 import FontAwesome from 'react-fontawesome';
 import noImg from '../../assets/images/no-thumbnail-medium.png';
@@ -57,14 +57,15 @@ const PostCard = (props) => {
                     <div className="w3-col m8 s12">
                         <p>
                             <button className="w3-button w3-padding-large w3-white w3-border">    
-                            <Link
+                            <NavLink
+                                className="link"
                                 to={{
                                     pathname: `/post/${props.post._id}`,
                                     state: { post: props.post}
                                 }}
                             >
                                 <b>READ MORE</b>
-                            </Link>
+                            </NavLink>
 
                         >
                             

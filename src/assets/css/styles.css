@@ -24,7 +24,7 @@ h5 {
 	color: 	#DCDCDC;
 }
 
-	.w3-bar-item:hover {
+.w3-bar-item:hover {
 	transition: ease-in-out 0.3s !important;
 	background-color: black !important;
 	color: white !important;
@@ -131,9 +131,29 @@ h5 {
 .w3-show {
 	transition: ease-in-out 0.3s !important;
 }
-/* ck editor */
-.ck.ck-content {
-	min-height: 400px;
+
+.link {
+	text-decoration: none;
 }
+
+/* React quill */
+
+app .ql-container {
+	min-height: 10em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	background: #fefcfc;
+  }
+  
+  .app .ql-toolbar {
+	background: #eaecec;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+  }
+
+/* ck editor */
+/* .ck.ck-content {
+	min-height: 400px;
+} */
 
 
