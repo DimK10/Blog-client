@@ -38,20 +38,23 @@ export const authenticateForAction = (data, next) => {
         return false;
     };
     const { token, user } = data;
-    return fetch(`${API}/user/${user._id}`, {
-        method: "GET",
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then((response) => {
-        if(response.error) {
-            // console.log('response.error in authForAction: ', response.error);
-            return false;
-        };
-
-        return true;
-    });
+    if(user && token) {
+        return fetch(`${API}/user/${user._id}`, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            if(response.error) {
+                // console.log('response.error in authForAction: ', response.error);
+                return false;
+            };
+    
+            return true;
+        });
+    };
+    return false;
 };
 
 export const authenticate = (data, next) => {

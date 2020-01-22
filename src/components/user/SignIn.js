@@ -20,7 +20,7 @@ const SignIn = (props) => {
     const [values, setValues] = useState({
         email: '',
         password: '',
-        error: '',
+        errors: [],
         redirectToReferrer: false
     });
     const [modalIsOpen, setModalIsOpen] = useState(props.modalIsOpen);
@@ -50,9 +50,9 @@ const SignIn = (props) => {
         .then(data => {
             console.log('DATA: ', data);
 
-            if(data.err) {
+            if(data.error) {
                 
-                setValues({...values, error: data.err});
+                setValues({...values, errors: [...data.error]});
             } else {
                 authenticate(data, () => {
                     setValues({
@@ -95,7 +95,9 @@ const SignIn = (props) => {
                     <div className="w3-section">
                     <div className="w3-content">
                         <div className="w3-row">
-                        {showError()}
+                        {values.errors.map((error, index) => {
+                            return <div key={index}>{showError(error)}</div>
+                        })}
                         </div>
                     </div>
                         <label><b>Email</b></label>
@@ -138,15 +140,22 @@ const SignIn = (props) => {
         </Modal>
     );
 
-    const showError = () => (
-        <div className="w3-panel w3-pale-red w3-border errorMessage" style={{display: values.error ? '' : 'none'}}>
+    const showError = (errorMsg) => (
+        <div className="w3-panel w3-pale-red w3-border errorMessage">
             <div className="error">
-                {'❌ ' + values.error}
+                {'❌ ' + errorMsg}
             </div>
             <div className="closeMessage">
-                <span className="w3-button closeIcon w3-hover-pale-red">
+                <button 
+                    className="w3-button closeIcon w3-hover-pale-red"
+                    onClick={() =>{ 
+                        let errorsArr = values.errors.filter((error) => ( error !== errorMsg ))
+                        setValues({...values, errors: [...errorsArr]}) 
+                        
+                    }}
+                >
                     &times; 
-                </span>
+                </button>
             </div>
         </div>
     );
