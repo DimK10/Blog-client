@@ -73,10 +73,20 @@ h5 {
 	white-space: pre-line;
 }
 
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+};
+.w3-bar.w3-black {
+	height: 41px;
+}
+
+
 #content {
 	min-height: 100vh;
 	/* test */
-	padding-top: 5em;
+	/* padding-top: 5em; */
 }
 
 #post-container {
@@ -98,6 +108,14 @@ h5 {
 #post-text {
 	color: rgba(0, 0, 0, 0.84);
 	font-size: large;
+}
+
+.reading-progress-bar {
+	position: sticky;
+	height: 5px;
+	background-color: #3F5365;
+	z-index: 500;
+	top: 41px;
 }
 
 .errorMessage {
