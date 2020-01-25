@@ -47,8 +47,14 @@ const CreatePost = props => {
         console.log('data error ', data.error );
         setError(data.error);
       };
+      
+      // Add to data (which is the newly created post) the user and the createdAt
+
       // Redirect to newly created post
-      // props.history.push('/');
+      props.history.push({
+        pathname: `/post/${data._id}`,
+        state: { post: data}
+      });
     })
     .catch((error) => {
       console.log('catch error ', data.error );

@@ -6,6 +6,7 @@ import ReactHtmlParser from 'react-html-parser';
 import nl2br from 'react-newline-to-break';
 import {CircleArrow as ScrollUpButton} from "react-scroll-up-button";
 import {API} from '../../config';
+import {isAuthenticated} from '../../API/auth/index';
 import noImg from '../../assets/images/no-thumbnail-medium.png'
 
 
@@ -13,6 +14,7 @@ const Post = (props) => {
 
     // const {post} = props.state;
     const [readingProgress, setReadingProgress] = useState(0);
+    const [isTheAuthor, setIsTheAuthor] = useState(false);
     const target = React.createRef();
 
     const consoleProps = (p) => {
@@ -37,10 +39,6 @@ const Post = (props) => {
         };
     };
 
-    // Scroll to top on 1st render
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    },[]);
 
     const scrollListener = () => {
         if (!target.current) {
@@ -62,14 +60,56 @@ const Post = (props) => {
         console.log(windowScrollTop);
     
         setReadingProgress((windowScrollTop / totalHeight) * 100);
-      };
+    };
+    
+    const findIfCreatorOfPost = () => {
+        // Find if the user see if this post is the creator of it, to give him the ability to change, or delete it
+        const jwt = isAuthenticated();
+        if(!jwt) {
+            return;
+        } else {
+            if(jwt.user._id === props.state.post.author._id) {
+                // User is the author of the post
+                setIsTheAuthor(true);
+            };
+        };
+    };
+
+    const handleEditClick = (event) => {
+        
+    };
+
+    const handleDeleteClick = (event) => {
+        
+    };
+
+    // Scroll to top on 1st render
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        findIfCreatorOfPost();
+    },[]);
+
+
     
 
     return (
         <div className="w3-container w3-light-grey" id = "post-container">
             <Menu />
+            {
+                isTheAuthor 
+                && 
+                <div id="modify-buttons" className="w3-panel w3-note">
+                    <button id="edit-btn" className="w3-button w3-blue" onClick={handleEditClick}>
+                        Edit
+                    </button>
+                    <button id="delete-btn" className="w3-button w3-red" onClick={handleDeleteClick}>
+                        Delete
+                    </button>
+                </div> 
+            }
             
-            <div className="w3-col s12" id="content" ref={target}>
+            <div className="w3-col s12" id="content" style={{ paddingTop: isTheAuthor ? '0' : '5em' }} ref={target}>
+            
             {/* <ReadingProgressBar target={target} /> */}
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
@@ -105,6 +145,7 @@ const Post = (props) => {
                 </div>
              
             </div>
+            
             <ScrollUpButton />
             </div>
             
