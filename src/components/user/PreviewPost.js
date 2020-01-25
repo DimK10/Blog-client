@@ -25,9 +25,8 @@ const PreviewPost = (props) => {
     };
 
     const createUrl = () => {
-        console.log(props.image[0][0]);
-        let reader = new FileReader();
-        let urlImg = window.URL.createObjectURL(props.image[0][0]);
+        console.log(props.image[0]);
+        let urlImg = window.URL.createObjectURL(props.image[0]);
         console.log('urlImg ', urlImg);
         setUrl(urlImg);
         return urlImg

@@ -30,6 +30,7 @@
     "react-scroll-up-button": "^1.6.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "string-strip-html": "^4.3.14",
     "w3-css": "^4.1.0"
   },
   "scripts": {

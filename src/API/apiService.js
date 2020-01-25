@@ -22,3 +22,27 @@ export const getImage = (postId) => {
     })
     .catch(err => { return err });
 };
+
+export const createNewPost = (formData) => {
+    let {token, user} = JSON.parse(localStorage.getItem('jwt'));
+    console.log('user in jwt ', user);
+    console.log('token ', token);
+    console.log('post in fetch ', formData);
+
+    
+
+    return fetch(`${API}/post/create/${user._id}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        body: formData
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .catch((err) => {
+        console.log(err);
+        return err;
+    });
+};

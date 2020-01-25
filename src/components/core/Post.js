@@ -70,7 +70,7 @@ const Post = (props) => {
             <Menu />
             
             <div className="w3-col s12" id="content" ref={target}>
-            <ReadingProgressBar target={target} />
+            {/* <ReadingProgressBar target={target} /> */}
             <div className="w3-card w3-center w3-white" id="post-content">
                 {consoleProps(props)}
                 <div className="w3-row w3-margin w3-center" id="post-title">
@@ -88,13 +88,13 @@ const Post = (props) => {
                                     <div className="w3-container w3-left">
                                         <p className="w3-opacity w3-left-align">
                                             Created from <span className="w3-tag">{props.state.post.author.name}</span> at 
-                                            {` ${moment(props.state.post.created_at).date()} ${moment(props.state.post.created_at).month()} ${moment(props.state.post.created_at).year()}`}
+                                            {` ${moment(props.state.post.created_at).date()} ${moment(props.state.post.created_at).month() + 1} ${moment(props.state.post.created_at).year()}`}
                                         </p> 
                                     </div>
                                 </div>
                             
                                 <div className="w3-left-align w3-margin-bottom" id="post-text">
-                                    {props.state.post.description ? JSON.parse(props.state.post.description) : props.desc}
+                                    {props.state.post.description ? ReactHtmlParser(JSON.parse(props.state.post.description))  : props.desc}
                                 </div>
                                 <div className="w3-margin-top"></div>
                             </div>

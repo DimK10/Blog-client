@@ -8,20 +8,57 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-theme-lark';
 import RichTextEditor from '../core/RichTextEditor';
+import {createNewPost} from '../../API/apiService';
+import {API} from '../../config';
 
 const CreatePost = props => {
   const [pictures, setPictures] = useState ([]);
   const [titleForPreview, setTitleForPreview] = useState ('');
   const [descForPreview, setDescForPreview] = useState ('');
   const [modalIsOpen, setModalIsOpen] = useState (false);
+  const [error, setError] = useState('');
   const {register, handleSubmit, watch, errors} = useForm ();
+  
 
   const onSubmit = data => {
-    console.log (data);
+    let {title} = data;
+    console.log(title);
+    let urlImg = undefined;
+    // if(pictures[0]) {
+    //   urlImg = window.URL.createObjectURL(pictures[0]);
+    // };
+    console.log('picture ', urlImg);
+    let post = {photo: pictures[0], title, description: descForPreview, categories: []};
+    console.log(post);
+    // TODO - Add categories with category id
+
+    //Create formData
+    let formData = new FormData();
+    formData.append('photo', post.photo);
+    formData.append('title', post.title);
+    formData.append('description', post.description);
+    formData.append('categories', '5e1a35dda3920962586138cb');
+  
+    // Send post to server
+    createNewPost(formData)
+    .then((data) => {
+      console.log('DATA IN CREATE POST ', data);
+      if(data.error) {
+        console.log('data error ', data.error );
+        setError(data.error);
+      };
+      // Redirect to newly created post
+      // props.history.push('/');
+    })
+    .catch((error) => {
+      console.log('catch error ', data.error );
+
+      setError(error);
+    });
   };
 
   const onDrop = picture => {
-    setPictures ([picture]);
+    setPictures(picture);
   };
 
   //React quill
@@ -47,12 +84,32 @@ const CreatePost = props => {
     [modalIsOpen]
   );
 
+  const renderErrorMessage = () => (
+    <div className="w3-panel w3-pale-red w3-border errorMessage" style={{ display: error ? '' : 'none' }}>
+      <div className="error">
+          {'❌ ' + error}
+      </div>
+      <div className="closeMessage">
+          <button 
+              className="w3-button closeIcon w3-hover-pale-red"
+              onClick={() =>{ 
+                  setError('');
+              }}
+          >
+              &times; 
+          </button>
+      </div>
+      </div>
+  );
+
+
   const handleTitleChange = event => {
     console.log ('title ', event.target.value);
     setTitleForPreview (event.target.value);
   };
 
-  const handlePreview = () => {
+  const handlePreview = (event) => {
+    event.preventDefault();
     setModalIsOpen (!modalIsOpen);
   };
 
@@ -100,7 +157,7 @@ const CreatePost = props => {
               />
             </div>
             <hr />
-            <form className="w3-container" onSubmit={handleSubmit (onSubmit)}>
+            <form id="create-post-container" className="w3-container" onSubmit={handleSubmit (onSubmit)}>
               <div className="w3-section">
                 <label className="w3-left"><b>Post Title:</b></label>
                 <input

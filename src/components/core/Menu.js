@@ -40,8 +40,8 @@ class Menu extends Component {
     // Conditional renders 
     // render for guest
     guestRender = () => (
-        <div style={{width: '100%'}}>
-            <div className="w3-bar w3-black">
+        <div className="header" style={{width: '100%'}}>
+            <div className="w3-bar w3-black" style={{height: '41px'}}>
                 <NavLink 
                     className="w3-bar-item
                     w3-button 
@@ -102,7 +102,7 @@ class Menu extends Component {
 
     userRender = () => (
         <div className="header" style={{width: '100%'}}>
-            <div className="w3-bar w3-black">
+            <div className="w3-bar w3-black" style={{height: '41px'}}>
                 <NavLink 
                     className="w3-bar-item
                     w3-button 

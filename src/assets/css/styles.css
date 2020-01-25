@@ -69,6 +69,10 @@ h5 {
 	height: 100%;
 }
 
+#create-post-container {
+	height: auto;
+}
+
 .display-linebreak {
 	white-space: pre-line;
 }
@@ -78,15 +82,17 @@ h5 {
 	top: 0;
 	z-index: 1000;
 };
-.w3-bar.w3-black {
-	height: 41px;
+#bar {
+	height: 41px !important;
 }
 
 
 #content {
 	min-height: 100vh;
 	/* test */
-	/* padding-top: 5em; */
+	padding-top: 5em;
+	display: flex;
+	justify-content: center;
 }
 
 #post-container {
@@ -99,6 +105,9 @@ h5 {
 	margin: 0 4em 2em 4em;
 	/* test */
 	line-height: 2em;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 }
 
 #post-title {

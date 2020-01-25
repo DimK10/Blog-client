@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
+import stripHtml from "string-strip-html";
 import { NavLink } from 'react-router-dom';
 import {API} from '../../config';
 import FontAwesome from 'react-fontawesome';
@@ -15,6 +16,7 @@ const PostCard = (props) => {
     const showShortDesc = (description) => {
         const  indexOfDot = description.indexOf('.');
         let shortDesc = description.substring(0, indexOfDot);
+        shortDesc = stripHtml(shortDesc).replace('"','');
         console.log('shortDesc ', shortDesc);
         return shortDesc;
     };
