@@ -24,6 +24,7 @@ export const getImage = (postId) => {
 };
 
 export const createNewPost = (formData) => {
+    //TODO - add token and user data alongside with formdata
     let {token, user} = JSON.parse(localStorage.getItem('jwt'));
     console.log('user in jwt ', user);
     console.log('token ', token);
@@ -37,6 +38,26 @@ export const createNewPost = (formData) => {
             Authorization: `Bearer ${token}`,
         },
         body: formData
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .catch((err) => {
+        console.log(err);
+        return err;
+    });
+};
+
+export const createNewCategory = (token, user, formData) => {
+    console.log('post in fetch ', formData);
+    return fetch(`${API}/category/create/${user._id}`, {
+        method: "POST",
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData)
     })
     .then((response) => {
         return response.json();

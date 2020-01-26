@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import SignIn from '../user/SignIn';
 import {toggleSignInModal} from '../../actions/modals';
 import {isAuthenticated, signout} from '../../API/auth/index';
+import FontAwesome from 'react-fontawesome';
 
 import store from '../../store/configureStore'; 
 class Menu extends Component {
@@ -155,7 +156,20 @@ class Menu extends Component {
                 >
                     Sign Out
                 </span>
-                <NavLink 
+                <div className="
+                         w3-dropdown-hover w3-black">
+                    <button className="w3-button  w3-bottombar 
+                        w3-border-black 
+                        w3-hover-border-white "><FontAwesome name="plus" /></button>
+                    <div className="w3-dropdown-content w3-bar-block w3-card-4">
+                        <NavLink className="w3-bar-item w3-button w3-border-black 
+                        w3-hover-border-white " to="/create-new-post" >New Post</NavLink>
+                        <NavLink className="w3-bar-item w3-button w3-border-black 
+                        w3-hover-border-white " to="/create-new-category" >New Category</NavLink>
+                    </div>
+                </div>
+                
+                {/* <NavLink 
                     className="w3-bar-item
                     w3-button 
                     w3-right
@@ -167,7 +181,7 @@ class Menu extends Component {
                     to="/create-new-post"
                 >
                     Create New Post
-                </NavLink>
+                </NavLink> */}
 
 
                 <button 

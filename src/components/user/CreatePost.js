@@ -57,7 +57,7 @@ const CreatePost = props => {
       });
     })
     .catch((error) => {
-      console.log('catch error ', data.error );
+      console.log('catch error ', error );
 
       setError(error);
     });
@@ -149,7 +149,8 @@ const CreatePost = props => {
     <React.Fragment>
       <Menu />
       <div className="w3-container w3-light-grey" id="post-container">
-        <div className="w3-col s12 w3-center" id="content">
+        <div className="w3-center"><h1>Create A New Post</h1></div>
+        <div className="w3-col s12 w3-center" id="content-for-form">
           <div className="w3-card w3-center w3-white" id="post-content">
             <div className="w3-content">
               <ImageUploader
