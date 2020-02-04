@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import Menu from '../core/Menu';
 import PreviewPost from './PreviewPost';
 import Modal from 'react-modal';
@@ -9,6 +10,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-theme-lark';
 import RichTextEditor from '../core/RichTextEditor';
 import {createNewPost} from '../../API/apiService';
+import {fetchCategories} from '../../actions/blogApi';
 import {API} from '../../config';
 
 const CreatePost = props => {
@@ -19,7 +21,9 @@ const CreatePost = props => {
   const [error, setError] = useState('');
   const {register, handleSubmit, watch, errors} = useForm ();
   
-
+  const consoleProps = () => {
+    console.log(props);
+  };
   const onSubmit = data => {
     let {title} = data;
     console.log(title);
@@ -89,6 +93,10 @@ const CreatePost = props => {
     },
     [modalIsOpen]
   );
+
+  useEffect(() => {
+    props.dispatch(fetchCategories());
+  },[]);
 
   const renderErrorMessage = () => (
     <div className="w3-panel w3-pale-red w3-border errorMessage" style={{ display: error ? '' : 'none' }}>
@@ -183,32 +191,6 @@ const CreatePost = props => {
 
                 </div>
                 {/* <div style={{display: modalIsOpen ? 'none' : ''}}> */}
-                <div style={{display: 'none'}}>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    onInit={editor => {
-                      // You can store the "editor" and use when it is needed.
-                      console.log ('Editor is ready to use!', editor);
-                    }}
-                    onChange={(event, editor) => {
-                      const data = editor.getData ();
-                      setDescForPreview ({data});
-                      console.log ({event, editor, data});
-                    }}
-                    onBlur={(event, editor) => {
-                      console.log ('Blur.', editor);
-                    }}
-                    onFocus={(event, editor) => {
-                      console.log ('Focus.', editor);
-                    }}
-                    config={{
-                      ckfinder: {
-                        uploadUrl: 'https://example.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
-                      },
-                    }}
-                  />
-
-                </div>
                 <RichTextEditor html={html}/>
               </div>
               <div className="w3-row">
@@ -233,8 +215,16 @@ const CreatePost = props => {
         </div>
         {preview ()}
       </div>
+      {consoleProps()}
+
     </React.Fragment>
   );
 };
 
-export default CreatePost;
+const mapStateToProps = (state) => {
+  return {
+    data: state
+  };
+};
+
+export default connect(mapStateToProps)(CreatePost);

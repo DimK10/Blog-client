@@ -1,5 +1,6 @@
 const initialState = {
     posts: [],
+    categories: [],
     img: [],
     isFetching: false,
     isError: false,

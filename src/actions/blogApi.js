@@ -1,10 +1,23 @@
 import store from '../store/configureStore';
-import { getAllPosts, getImage } from '../API/apiService';
+import { getAllPosts, getImage, getAllCategories } from '../API/apiService';
 
 
 export const fetch_posts = () => {
     return {
         type: "FETCH_POSTS"
+    };
+};
+
+export const fetch_categories = () => {
+    return {
+        type: "FETCH_CATEGORIES"
+    };
+};
+
+export const receive_categories = (categories) => {
+    return {
+        type: "FETCHED_CATEGORIES",
+        data: categories
     };
 };
 
@@ -68,6 +81,16 @@ export const fetchPosts =() => {
             
         })
         .catch(err => dispatch(receive_error(err)));
+    };
+};
+
+export const fetchCategories = () => {
+    store.dispatch(fetch_categories());
+    return function(dispatch) {
+        getAllCategories()
+        .then(data => {
+            dispatch(receive_categories(data));
+        })
     };
 };
 

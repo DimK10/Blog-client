@@ -12,6 +12,19 @@ export const getAllPosts = () => {
     .catch(err => { return err });
 };
 
+export const getAllCategories = () => {
+    return fetch(`${API}/categories`, {
+        method: "GET"
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log('err in fetch get all categories ', err);
+        return err;
+    });
+};
+
 export const getImage = (postId) => {
     return fetch(`${API}/post/image/${postId}`, {
         method: "GET"

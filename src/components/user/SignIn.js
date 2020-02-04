@@ -51,8 +51,10 @@ const SignIn = (props) => {
             console.log('DATA: ', data);
 
             if(data.error) {
-                
                 setValues({...values, errors: [...data.error]});
+            }
+            else if (data.err) {
+                setValues({...values, errors: [...values.errors, data.err]});
             } else {
                 authenticate(data, () => {
                     setValues({
