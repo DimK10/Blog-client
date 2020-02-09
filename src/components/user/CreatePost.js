@@ -4,6 +4,7 @@ import Menu from '../core/Menu';
 import PreviewPost from './PreviewPost';
 import Modal from 'react-modal';
 import ImageUploader from 'react-images-upload';
+import FontAwesome from 'react-fontawesome';
 import {useForm} from 'react-hook-form';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -19,6 +20,7 @@ const CreatePost = props => {
   const [descForPreview, setDescForPreview] = useState ('');
   const [modalIsOpen, setModalIsOpen] = useState (false);
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
   const {register, handleSubmit, watch, errors} = useForm ();
 
   let categoriesRefs = useRef([]);
@@ -93,6 +95,27 @@ const CreatePost = props => {
       categoriesRefs.current[index].className += " active";
     } else {
       categoriesRefs.current[index].className = categoriesRefs.current[index].className.replace(" active", "");
+    };
+  };
+
+  const handleCategoryDoubleClick = (index) => {
+    // Stop showing the category on the left 
+    categoriesRefs.current[index].style = "display:none"
+
+    // Add that element to the categories array which will be used as categories for that Post
+    setCategories([...categories, props.data.asyncCategoriesReducer.categories[index]]);
+  };
+
+  const showSelectedCategories = () => {
+    if(categories.length > 0) {
+      return categories.map((category, index)=> (
+        <span
+          key={index}
+          className="w3-tag selected-category-item"
+        >
+          {category.title}  <FontAwesome name="times-circle" />
+        </span>
+      ))
     };
   };
 
@@ -225,12 +248,23 @@ const CreatePost = props => {
                         key={index}
                         className="w3-button w3-hover-light-blue category-item"
                         onClick={() =>{handleCategoryClick(index)}}
+                        onDoubleClick={()=>{handleCategoryDoubleClick(index)}}
                       >
                         {category.title}
                       </button>
                     ))}
                   </div>
-                  <div className="selected-categories"></div>
+                  <div className="selected-categories">
+                    {/* {categories.length !==0 && categories.map((category, index)=> (
+                      <button
+                        key={index}
+                        className="w3-button w3-hover-light-blue category-item"
+                      >
+                        {category.title}
+                      </button>
+                    ))} */}
+                    {showSelectedCategories()}
+                  </div>
                 </div>
               </div>
               <div className="w3-row">

@@ -331,6 +331,11 @@ nav > ul > li:first-child { border-left: none; } */
 	width: 100%;
 }
 
+.selected-category-item {
+	margin-right: 3px;
+	margin-bottom: 3px;
+}
+
 .category-item.active {
 	color: white;
 	background-color: black;
