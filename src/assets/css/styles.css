@@ -348,4 +348,5 @@ nav > ul > li:first-child { border-left: none; } */
 	width: 40%;
 	height: 100px;
 	overflow-y: scroll;
+	text-align: left;
 }
