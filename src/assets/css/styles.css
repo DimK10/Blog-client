@@ -339,6 +339,7 @@ nav > ul > li:first-child { border-left: none; } */
 .category-item.active {
 	color: white;
 	background-color: black;
+	border: 1px solid white;
 }
 
 .selected-categories {

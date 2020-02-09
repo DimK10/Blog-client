@@ -103,7 +103,14 @@ const CreatePost = props => {
     categoriesRefs.current[index].style = "display:none"
 
     // Add that element to the categories array which will be used as categories for that Post
-    setCategories([...categories, props.data.asyncCategoriesReducer.categories[index]]);
+    // setCategories([...categories, props.data.asyncCategoriesReducer.categories[index]]);
+    setCategories([
+      ...categories,
+      {
+        category: props.data.asyncCategoriesReducer.categories[index],
+        initialIndex: index
+      }
+    ])
   };
 
   const showSelectedCategories = () => {
@@ -113,11 +120,27 @@ const CreatePost = props => {
           key={index}
           className="w3-tag selected-category-item"
         >
-          {category.title}  <FontAwesome name="times-circle" />
+          {category.category.title}  <FontAwesome name="times-circle" onClick={() => {deleteSelectedCategory(category.initialIndex, category.category._id)}} />
         </span>
       ))
     };
   };
+
+  const deleteSelectedCategory = (initialIndex, categoryId) => {
+    // Remove the selected category and re appear in left div to select
+    // let newCategories = categories.splice(indexOfSelectedCategory, 1);
+    console.log('initial category id', categoryId);
+    let newCategories = categories.filter(category => categoryId !== category.category._id)
+    console.log('newCategories after deleteing element ', newCategories);
+    setCategories([...newCategories]);
+
+    // Re-appear on left box
+    categoriesRefs.current[initialIndex].style="display:inline-block";
+  };
+
+  useEffect(()=>{
+    console.log('categories on change ', categories);
+  },[categories])
 
   useEffect (
     () => {
@@ -255,14 +278,6 @@ const CreatePost = props => {
                     ))}
                   </div>
                   <div className="selected-categories">
-                    {/* {categories.length !==0 && categories.map((category, index)=> (
-                      <button
-                        key={index}
-                        className="w3-button w3-hover-light-blue category-item"
-                      >
-                        {category.title}
-                      </button>
-                    ))} */}
                     {showSelectedCategories()}
                   </div>
                 </div>
