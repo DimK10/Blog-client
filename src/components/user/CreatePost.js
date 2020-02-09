@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import Menu from '../core/Menu';
 import PreviewPost from './PreviewPost';
@@ -20,6 +20,15 @@ const CreatePost = props => {
   const [modalIsOpen, setModalIsOpen] = useState (false);
   const [error, setError] = useState('');
   const {register, handleSubmit, watch, errors} = useForm ();
+
+  let categoriesRefs = useRef([]);
+  categoriesRefs.current = [];
+
+  const addToRefs = el => {
+    if (el && !categoriesRefs.current.includes(el)) {
+      categoriesRefs.current.push(el);
+    }
+   };
   
   const consoleProps = () => {
     console.log(props);
@@ -66,6 +75,7 @@ const CreatePost = props => {
       setError(error);
     });
   };
+  
 
   const onDrop = picture => {
     setPictures(picture);
@@ -74,6 +84,16 @@ const CreatePost = props => {
   //React quill
   const html = (value) => {
     setDescForPreview(value);
+  };
+
+  const handleCategoryClick = (index) => {
+    console.log(categoriesRefs);
+    console.log('index ', index);
+    if (categoriesRefs.current[index].className.indexOf("active") === -1) {
+      categoriesRefs.current[index].className += " active";
+    } else {
+      categoriesRefs.current[index].className = categoriesRefs.current[index].className.replace(" active", "");
+    };
   };
 
   useEffect (
@@ -194,6 +214,26 @@ const CreatePost = props => {
                 <RichTextEditor html={html}/>
               </div>
               <div className="w3-row">
+                <label className="w3-left w3-margin-bottom">
+                  <b>Choose categories-tags:</b>
+                </label>
+                <div className="categories-container">
+                  <div className="categories-list">
+                    {props.data.asyncCategoriesReducer.categories.map((category, index) => (
+                      <button
+                        ref={addToRefs}
+                        key={index}
+                        className="w3-button w3-hover-light-blue category-item"
+                        onClick={() =>{handleCategoryClick(index)}}
+                      >
+                        {category.title}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="selected-categories"></div>
+                </div>
+              </div>
+              <div className="w3-row">
 
                 <input
                   className="w3-button w3-margin w3-black w3-section w3-padding"
@@ -209,7 +249,6 @@ const CreatePost = props => {
                 </button>
 
               </div>
-
             </form>
           </div>
         </div>
