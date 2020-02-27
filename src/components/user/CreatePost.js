@@ -21,6 +21,7 @@ const CreatePost = props => {
   const [modalIsOpen, setModalIsOpen] = useState (false);
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
+  const [categoryids, setCategoryIds] = useState([]);
   const {register, handleSubmit, watch, errors} = useForm ();
 
   let categoriesRefs = useRef([]);
@@ -35,6 +36,7 @@ const CreatePost = props => {
   const consoleProps = () => {
     console.log(props);
   };
+
   const onSubmit = data => {
     let {title} = data;
     console.log(title);
@@ -52,7 +54,7 @@ const CreatePost = props => {
     formData.append('photo', post.photo);
     formData.append('title', post.title);
     formData.append('description', post.description);
-    formData.append('categories', '5e1a35dda3920962586138cb');
+    formData.append('categories', JSON.stringify(categoryids));
   
     // Send post to server
     createNewPost(formData)
@@ -99,6 +101,7 @@ const CreatePost = props => {
   };
 
   const handleCategoryDoubleClick = (index) => {
+    
     // Stop showing the category on the left 
     categoriesRefs.current[index].style = "display:none"
 
@@ -163,6 +166,13 @@ const CreatePost = props => {
   useEffect(() => {
     props.dispatch(fetchCategories());
   },[]);
+
+  // Helper useEffect, to update categoryIds immediately upon state category change
+  useEffect(() => {
+    setCategoryIds(categories.map((category) => {
+      return category.category._id;
+    })); 
+  }, [categories]);
 
   const renderErrorMessage = () => (
     <div className="w3-panel w3-pale-red w3-border errorMessage" style={{ display: error ? '' : 'none' }}>
@@ -270,8 +280,15 @@ const CreatePost = props => {
                         ref={addToRefs}
                         key={index}
                         className="w3-button w3-hover-light-blue category-item"
-                        onClick={() =>{handleCategoryClick(index)}}
-                        onDoubleClick={()=>{handleCategoryDoubleClick(index)}}
+                        onClick={(event) =>{
+                            event.preventDefault();
+                            handleCategoryClick(index)
+                          }}
+                        onDoubleClick={(event)=>{
+                            // Prevent form submission
+                            event.preventDefault();
+                            handleCategoryDoubleClick(index)
+                          }}
                       >
                         {category.title}
                       </button>

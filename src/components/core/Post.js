@@ -132,6 +132,17 @@ const Post = (props) => {
                                         </p> 
                                     </div>
                                 </div>
+                                <div className="w3-row">
+                                    <div className="w3-container w3-left">
+                                        <p className="w3-opacity w3-left-align">
+                                            Tags - Categories: 
+                                        </p> 
+                                        {props.state.post.categories.map((category) =>{
+                                            return (<span className="w3-tag" style={{ marginRight: '5px' }}>{category.title}</span>)
+                                        })
+}
+                                    </div>
+                                </div>
                             
                                 <div className="w3-left-align w3-margin-bottom" id="post-text">
                                     {props.state.post.description ? ReactHtmlParser(JSON.parse(props.state.post.description))  : props.desc}
