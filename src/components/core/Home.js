@@ -1,19 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import {withRouter} from 'react-router-dom';
 import Layout from './Layout';
-import Footer from './Footer';
 import PostCard from './PostCard';
 import AboutCard from './AboutCard';
-import SignIn from '../user/SignIn';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../actions/blogApi';
 
 const Home = (props) => {
 
-    const [posts, setPosts] = useState([]);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         props.dispatch(fetchPosts());
     }, []);
+
+    useEffect(() => {
+        if(props.location.state) {
+            setMessage(props.location.state.message);
+            setTimeout(() => {
+                setMessage('');
+            }, 1500);
+        };
+    }, [props.location]);
+
+    const consoleProps = (p) => {
+        console.log('props ', p);
+    };
+
+    const showFlashMessage = () => {
+        return <div className="w3-panel w3-pale-green w3-border" style={{ display: message !== '' ? '' : 'none' }}>
+            {message}
+        </div>
+
+    }
 
    const showHome = () => (
         <div className="w3-light-grey">
@@ -22,6 +41,8 @@ const Home = (props) => {
                 <div className="w3-row">
                     <div className="w3-col l7 s12">
                         {/* {JSON.stringify(props)} */}
+                        {consoleProps(props)}
+                        {props.location ? showFlashMessage() : null}
                         {props.data.asyncReducer.posts.map((post) => {
                             return <PostCard 
                                         class={"w3-card-4 w3-margin w3-white"} 
@@ -40,9 +61,7 @@ const Home = (props) => {
                     </div>
                     <br/>
                 </div>
-            {/* <Footer /> */}
-            </div>
-            
+            </div> 
         </div>
     );
 
@@ -60,4 +79,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Home);
+export default withRouter(connect(mapStateToProps)(Home));

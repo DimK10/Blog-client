@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from 'react';
 import Menu from './Menu';
+import {withRouter} from 'react-router-dom';
 import ReadingProgressBar from '../ReadingProgressBar';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
@@ -7,12 +8,14 @@ import nl2br from 'react-newline-to-break';
 import {CircleArrow as ScrollUpButton} from "react-scroll-up-button";
 import {API} from '../../config';
 import {isAuthenticated} from '../../API/auth/index';
+import {removePost} from '../../API/posts/apiPosts';
 import noImg from '../../assets/images/no-thumbnail-medium.png'
 
 
 const Post = (props) => {
 
     // const {post} = props.state;
+    const [post, setPost] = useState({});
     const [readingProgress, setReadingProgress] = useState(0);
     const [isTheAuthor, setIsTheAuthor] = useState(false);
     const target = React.createRef();
@@ -80,12 +83,32 @@ const Post = (props) => {
     };
 
     const handleDeleteClick = (event) => {
-        
+        removePost(props.state.post)
+        .then((data) => {
+            if(data.err) {
+                // TODO - Add a friendly message
+                console.log(data.err);
+                return;
+            };
+
+            // Redirect to home page
+            // props.history.push('/');
+            props.history.push({
+                pathname: '/',
+                state: { message: "Post deleted Successfully!"}
+              });
+        })
+        .catch((err) => {
+            console.log(err);
+            return;
+        });
     };
 
     // Scroll to top on 1st render
     useEffect(() => {
         window.scrollTo(0, 0)
+        // props.state.post does not provide the populated info for user, comments, and categories
+        // getPost(props.state.post)
         findIfCreatorOfPost();
     },[]);
 
@@ -138,7 +161,8 @@ const Post = (props) => {
                                             Tags - Categories: 
                                         </p> 
                                         {props.state.post.categories.map((category) =>{
-                                            return (<span className="w3-tag" style={{ marginRight: '5px' }}>{category.title}</span>)
+                                            console.log('category id', category._id);
+                                            return (<span className="w3-tag" key={category._id} style={{ marginRight: '5px' }}>{category.title}</span>)
                                         })
 }
                                     </div>
@@ -166,6 +190,6 @@ const Post = (props) => {
     );
 };
 
-export default Post;
+// export default Post;
 
-// export default withRouter(Post);
+export default withRouter(Post);

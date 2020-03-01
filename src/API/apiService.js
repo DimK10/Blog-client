@@ -1,3 +1,4 @@
+// TODO - move functions about posts to posts folder
 import { API } from '../config';
 
 export const getAllPosts = () => {
