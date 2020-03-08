@@ -79,7 +79,12 @@ const Post = (props) => {
     };
 
     const handleEditClick = (event) => {
-        
+        // Redirect to update post
+
+        props.history.push({
+            pathname: '/update-post',
+            state: { post: props.state.post }
+          });
     };
 
     const handleDeleteClick = (event) => {

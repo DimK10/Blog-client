@@ -6,9 +6,7 @@ const Header = () => (
             <h1>
                 THE NATURE'S BLOG
             </h1>
-            <p>Welcome To A Blog That Is   
-                <span className="w3-tag">All About Nature</span>
-            </p>
+            <span className="w3-tag">Welcome To A Blog That Is All About Nature </span>
         </div>
     </header>
 );

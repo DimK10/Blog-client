@@ -2,6 +2,7 @@ import React from 'react';
 import Home from './components/core/Home';
 import Post from './components/core/Post';
 import CreatePost from './components/user/CreatePost';
+import UpdatePost from './components/user/UpdatePost';
 import CreateCategory from './components/user/CreateCategory';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import UserRoute from './auth/UserRoute';
@@ -21,6 +22,7 @@ const Routes = (props) => {
             <Route path="/" exact component={Home} />
             {/** TODO - Make this a private route */}
             <UserRoute path="/create-new-post" exact component={CreatePost} />
+            <UserRoute path="/update-post" exact component={UpdatePost} />
             <UserRoute path="/create-new-category" exact component={CreateCategory} />
             <Route 
                 path="/post/:postId" 

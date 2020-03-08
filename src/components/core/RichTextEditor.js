@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill, {Quill} from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
+
 /* 
  * Simple editor component that takes placeholder text as a prop 
  */
@@ -9,19 +10,42 @@ Quill.register('modules/imageResize', ImageResize);
 class RichTextEditor extends React.Component {
   constructor (props) {
     super (props);
+    
+    // console.log('props in richtexteditor ', this.props.postDescription.replace('"<p>', '').replace('</p>"', ''));
+    this.reactQuill = React.createRef();
+    // this.state = {editorHtml: this.props.postDescription ? this.props.postDescription : ''};
     this.state = {editorHtml: ''};
     this.handleChange = this.handleChange.bind (this);
   }
 
+  
+
+  componentWillMount() {
+    let Delta = ReactQuill.Quill.import('delta');
+
+    this.setState({
+      editorHtml: this.props.postDescription ? this.props.postDescription.replace(/\\"/g, '') : ''
+    }, () => {
+      // console.log('editorHtml afer delta insert ', this.state.editorHtml.replace(/\\"/g, ''));
+      // this.reactQuill.current.setEditorContents(this.reactQuill.current.getEditor() ,this.state.editorHtml.replace(/\\"/g, ''));
+      // this.reactQuill.current.editingArea.innerHTML = this.props.postDescription
+    });
+
+
+  }
+
   handleChange (html) {
+    console.log('quill ref ', this.reactQuill);
     this.setState ({editorHtml: html}, () => {
       this.props.html (this.state.editorHtml);
+      // console.log(this.state.editorHtml);
     });
   }
 
   render () {
     return (
       <ReactQuill
+        ref={this.reactQuill}
         theme={'snow'}
         onChange={this.handleChange}
         value={this.state.editorHtml}
@@ -75,6 +99,7 @@ RichTextEditor.formats = [
   'height',
   'style',
   'alt',
+  'image'
 ];
 
 /* 

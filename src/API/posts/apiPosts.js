@@ -19,6 +19,30 @@ export const getPost = (postId) => {
     });
 };
 
+export const updatePost = (postId) => {
+    // Check for token
+    const { token, user } = JSON.parse(localStorage.getItem('jwt'));
+
+    if(!user) {
+        return {err: 'No token'};
+    };
+
+    return fetch(`${API}/update-post/${postId}/${user._id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .catch((err) => {
+        console.log(err);
+        return err;
+    });
+};
+
 
 export const  removePost = (post) => {
     // Check for token
