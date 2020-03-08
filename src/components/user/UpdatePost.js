@@ -98,27 +98,16 @@ const UpdatePost = props => {
 
   };
 
-  const handleCategoryDoubleClick = (index) => {
-  
-    let categoryChosen = {};
-
-    let categoriesToChoose = categoriesToSelect.filter((category) => {
- 
-
-      if(category._id === index) {
-        categoryChosen = category;
-      }
-      return category._id !== index;
+  const handleCategoryDoubleClick = (categoryIndex) => {
+    let categoriesToChoose = categoriesToSelect.map((category) => {
+      if(categoryIndex === category._id) {
+        return {...category, chosen: true }
+      };
+      return {...category}
     });
 
-    console.log('categoriesToChoose in double click ', categoriesToChoose);
 
     setCategoriesToSelect([...categoriesToChoose]);
-
-
-
-    // Add to the right
-    setCategories([...categories, categoryChosen]);
   };
 
 
@@ -139,26 +128,14 @@ const UpdatePost = props => {
   };
 
   const deleteSelectedCategory = (categoryId) => {
-    // // Remove the selected category and re appear in left div to select
-    let categoriesSelected = categories.filter((category) => {
-      return category._id !== categoryId
-    });
-
-    setCategories([...categoriesSelected]);
-
-    // Add category to the left
-    let categoriesChosen = props.data.asyncCategoriesReducer.categories.filter((category) => {
-      if(categoriesSelected.length > 0) {
-        let result = categoriesSelected.map((element) => {
-          return element._id === category._id
-        });
-        return result.includes(false)
-      } else {
-        return true;
+    let categoriesToChoose = categoriesToSelect.map((category) => {
+      if(categoryId === category._id) {
+        return { ...category, chosen: false }
       }
+      return {...category}
     });
 
-    setCategoriesToSelect([...categoriesChosen]);
+    setCategoriesToSelect([...categoriesToChoose]);
   };
 
 
@@ -386,12 +363,12 @@ const UpdatePost = props => {
                         className="w3-button w3-hover-light-blue category-item"
                         onClick={(event) =>{
                             event.preventDefault();
-                            handleCategoryClick(index)
+                            handleCategoryClick(category._id)
                           }}
                         onDoubleClick={(event)=>{
                             // Prevent form submission
                             event.preventDefault();
-                            handleCategoryDoubleClick(index)
+                            handleCategoryDoubleClick(category._id)
                           }}
                       >
                         {category.title}
