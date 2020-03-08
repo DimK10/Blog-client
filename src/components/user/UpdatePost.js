@@ -12,6 +12,7 @@ import '@ckeditor/ckeditor5-theme-lark';
 import RichTextEditor from '../core/RichTextEditor';
 import {createNewPost} from '../../API/apiService';
 import {fetchCategories} from '../../actions/blogApi';
+import {updatePost} from '../../API/posts/apiPosts';
 import {API} from '../../config';
 import { withRouter } from 'react-router-dom';
 
@@ -49,7 +50,11 @@ const UpdatePost = props => {
     //   urlImg = window.URL.createObjectURL(pictures[0]);
     // };
     console.log('picture ', urlImg);
-    let post = {photo: pictures[0], title, description: descForPreview, categories: []};
+    console.log('picture ', pictures[0]);
+    let post = {_id: props.location.state.post._id, title, description: descForPreview, categories: []};
+    if(pictures[0] !== undefined) {
+      post = {...post, photo: pictures[0]};
+    }
     console.log(post);
     // TODO - Add categories with category id
 
@@ -61,7 +66,7 @@ const UpdatePost = props => {
     formData.append('categories', JSON.stringify(categoryids));
   
     // Send post to server
-    createNewPost(formData)
+    updatePost(formData)
     .then((data) => {
       console.log('DATA IN CREATE POST ', data);
       if(data.error) {
@@ -140,8 +145,14 @@ const UpdatePost = props => {
 
 
   useEffect(()=>{
-    console.log('categories on change ', categories);
-  },[categories])
+    let categoriesIds = [];
+    categoriesToSelect.map((category) => {
+      categoriesIds.push(category._id);
+    });
+
+    setCategoryIds([...categoriesIds]);
+
+  },[categoriesToSelect])
 
   useEffect (
     () => {
