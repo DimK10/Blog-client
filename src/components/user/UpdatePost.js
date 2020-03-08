@@ -35,22 +35,6 @@ const UpdatePost = props => {
   categoriesRefs.current = [];
 
   let imageUploader = useRef();
-
-  // const addToRefs = el => {
-  //   if (el && !categoriesRefs.current.includes(el)) {
-  //     // categoriesRefs.current.push(el);
-  //     // Check if category is active for that post
-  //     console.log('inner HTML ', el.innerHTML);
-
-  //     props.location.state.post.categories.map((category) => {
-  //       if(el.innerHTML === category.title) {
-  //         el.style = "display:none";
-  //       };
-  //     });
-  //     categoriesRefs.current = [...categoriesRefs.current, el];
-  //     // setCatRefs([...catRefs, el]);
-  //   }
-  // };
   
   const consoleProps = () => {
     // console.log(`${API}/post/image/${props.location.state.post._id}`);
@@ -111,41 +95,15 @@ const UpdatePost = props => {
   };
 
   const handleCategoryClick = (index) => {
-    // console.log(categoriesRefs);
-    // console.log('index ', index);
-    // if (categoriesRefs.current[index].className.indexOf("active") === -1) {
-    //   categoriesRefs.current[index].className += " active";
-    // } else {
-    //   categoriesRefs.current[index].className = categoriesRefs.current[index].className.replace(" active", "");
-    // };
+
   };
 
   const handleCategoryDoubleClick = (index) => {
-    
-    // // Stop showing the category on the left 
-    // console.log('categories refs inside double click ', categoriesRefs.current);
-    // categoriesRefs.current[index].style = "display:none"
-
-    // // Add that element to the categories array which will be used as categories for that Post
-    // // setCategories([...categories, props.data.asyncCategoriesReducer.categories[index]]);
-    // setCategories([
-    //   ...categories,
-    //   {
-    //     category: props.data.asyncCategoriesReducer.categories[index],
-    //     initialIndex: index
-    //   }
-    // ])
-
-    // Remove from the left
+  
     let categoryChosen = {};
 
     let categoriesToChoose = categoriesToSelect.filter((category) => {
-      // if(category._id === index) {
-      //   categoryChosen = category;
-      //   return false;
-      // } else {
-      //   return true;
-      // };
+ 
 
       if(category._id === index) {
         categoryChosen = category;
@@ -165,17 +123,19 @@ const UpdatePost = props => {
 
 
 
-  const showSelectedCategories = () => {
-    if(categories.length > 0) {
-      return categories.map((category, index)=> (
-        <span
-          key={index}
-          className="w3-tag selected-category-item"
-        >
-          {category.title}  <FontAwesome name="times-circle" onClick={() => {deleteSelectedCategory(category._id)}} />
-        </span>
-      ))
-    };
+  const showSelectedCategories = (categoriesToSelect) => {
+    // if(categories.length > 0) {
+    //   return categories.map((category, index)=> (
+    //     <span
+    //       key={index}
+    //       className="w3-tag selected-category-item"
+    //     >
+    //       {category.title}  <FontAwesome name="times-circle" onClick={() => {deleteSelectedCategory(category._id)}} />
+    //     </span>
+    //   ))
+    // };
+
+    return 
   };
 
   const deleteSelectedCategory = (categoryId) => {
@@ -199,67 +159,8 @@ const UpdatePost = props => {
     });
 
     setCategoriesToSelect([...categoriesChosen]);
-
-
-
-
-
-
-    // // let newCategories = categories.splice(indexOfSelectedCategory, 1);
-    
-
-    // // Find initialIndex differently
-    // let initIndex = props.data.asyncCategoriesReducer.categories.findIndex(category => category._id === categoryId)
-
-    // console.log('INIT INDEX', initIndex);
-    // console.log('categoriesRefs.current[initIndex].style before ', categoriesRefs.current[initIndex]);
-
-    // // Re-appear on left box
-
-    // categoriesRefs.current[initIndex].style = { display: 'inline-block' };
-
-    // console.log('categoriesRefs.current[initIndex].style afer ', categoriesRefs.current[initIndex]);
-
-
-    // console.log('initial category id', categoryId);
-    // let newCategories = categories.filter(category => categoryId !== category.category._id)
-    // console.log('newCategories after deleteing element ', newCategories);
-    // setCategories([...newCategories]);
   };
 
-  //  const simulateDoubleClickingActiveCategories = (categoriesRefs) => {
-  //   if(categoriesRefs.current.length === props.data.asyncCategoriesReducer.categories.length) {
-  //       props.location.state.post.categories.map((category) => {
-  //           // console.log('category id ', category._id);
-  //           console.log('categoriesRefs in simulate ', categoriesRefs);
-  //           console.log(categoriesRefs.current.length);
-            
-    
-            
-  //               // categoriesRefs.current[category._id].style = "display:none"
-  //               categoriesRefs.current.map((categoryRef) => {
-    
-  //                   console.log('categoryref innerHTML ', categoryRef.innerHTML);
-  //                   console.log('category title ', category.title);
-    
-  //                   if(categoryRef.innerHTML === category.title) {
-  //                       categoryRef.style = { display: 'none' };
-  //                   }
-  //               })
-    
-  //               setCategories([
-  //                   ...categories,
-  //                   {
-  //                     category: category,
-  //                     initialIndex: category._id
-  //                   }
-  //                 ]);
-          
-    
-  //       });
-  //   };
-
-  // };
 
   useEffect(()=>{
     console.log('categories on change ', categories);
@@ -288,40 +189,70 @@ const UpdatePost = props => {
 
     imageUploader.current.state.pictures = [`${API}/post/image/${props.location.state.post._id}`];
 
-    // console.log('imageUploader ref ', imageUploader);
-
-    // Add data to state variables t oshow in each field in order to update
     setPostTitle(props.location.state.post.title);
 
     console.log('props.location.state.post ', props.location.state.post);
 
-    // Create a state array of categories to choose. This will be modified based on user 
-    // Adding a category for a post ( by removing the category - or if a category is already chosen )
-    let categoriesToChoose = props.data.asyncCategoriesReducer.categories.filter((category) => {
-      let result = props.location.state.post.categories.map((element) => {
-        return element._id !== category._id
-      });
-      return !result.includes(false)
+    
+    let categoriesToChoose = props.data.asyncCategoriesReducer.categories.map((category) => {
+      let newCategory = { ...category, chosen: false }
+      console.log('NEW CATEGORY ', newCategory);
+      return newCategory;
     });
 
-    let categoriesChosen = props.data.asyncCategoriesReducer.categories.filter((category) => {
-      let result = props.location.state.post.categories.map((element) => {
-        return element._id !== category._id
-      });
-      return result.includes(false)
-    });
-    
-    console.log('categories array without the categories of post to update ', categoriesToChoose);
-    console.log('categories chosen already ', categoriesChosen);
     setCategoriesToSelect([...categoriesToChoose]);
+
+    // Make categories that the user has already chosen, be chosen in the page
+    let selectedCategoriesIds = props.location.state.post.categories.map((category) => {
+      return category._id;
+    });
+
+    console.log('SELECTED CATEGORIES IDS ', selectedCategoriesIds);
+
+    // categoriesToChoose = [];
+
+    let categoriesChosen = categoriesToChoose.map((category) => {
+      let values = [];
+
+      values = selectedCategoriesIds.map((catId) => {
+        if(catId === category._id) {
+          return true;
+        };
+         return false;
+      });
+
+      if(values.includes(true)) {
+        return { ...category, chosen: true }
+      }
+
+      return {...category, chosen: false}
+    });
+
+    // categoriesToChoose = selectedCategoriesIds.map((categoryId) => {
+    //   return categoriesToSelect.map((cat) => {
+    //     if(categoryId === cat._id) {
+    //       return {...cat, chosen: true };
+    //     };
+    //   });
+    // });
+
+    setCategoriesToSelect([...categoriesChosen]);
     setCategories([...categoriesChosen]);
 
+    // Add to the right
+
+
+    
 
     // setPostDescription(props.location.state.post.description);
 
     
     // simulateDoubleClickingActiveCategories();
   },[]);
+
+  useEffect(() => {
+    console.log('CATEGORIES TO SELECT NEW ', categoriesToSelect);
+  }, [categoriesToSelect]);
 
   useEffect(() => {
     // console.log('post desc that should be passed to richtexteditor ', postDescription);
@@ -449,8 +380,9 @@ const UpdatePost = props => {
                 <div className="categories-container">
                   <div className="categories-list">
                   {categoriesToSelect.map((category, index) => (
-                    <button
+                    !category.chosen && <button
                         key={index}
+                        id={index}
                         className="w3-button w3-hover-light-blue category-item"
                         onClick={(event) =>{
                             event.preventDefault();
@@ -485,9 +417,16 @@ const UpdatePost = props => {
                     ))} */}
                   </div>
                   <div className="selected-categories">
-                    {showSelectedCategories()}
-                    
-
+                    {/* {showSelectedCategories(categoriesToSelect)} */}
+                    {categoriesToSelect.map((category, index) => (
+                      category.chosen && <span
+                          key={index}
+                          id={index}
+                          className="w3-tag selected-category-item"
+                        >
+                          {category.title}  <FontAwesome name="times-circle" onClick={() => {deleteSelectedCategory(category._id)}} />
+                        </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -525,5 +464,6 @@ const mapStateToProps = (state) => {
     data: state
   };
 };
+
 
 export default connect(mapStateToProps)(withRouter(UpdatePost));
