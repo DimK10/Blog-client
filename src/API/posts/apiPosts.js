@@ -19,9 +19,11 @@ export const getPost = (postId) => {
     });
 };
 
-export const updatePost = (postId) => {
+export const updatePost = (formData, postId) => {
     // Check for token
     const { token, user } = JSON.parse(localStorage.getItem('jwt'));
+
+    console.log('post data in formData update ', ...formData);
 
     if(!user) {
         return {err: 'No token'};
@@ -30,9 +32,9 @@ export const updatePost = (postId) => {
     return fetch(`${API}/update-post/${postId}/${user._id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "Application/json",
             Authorization: `Bearer ${token}`
-        }
+        },
+        body: formData
     })
     .then((response) => {
         return response.json();

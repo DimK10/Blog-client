@@ -42,7 +42,7 @@ export const createNewPost = (formData) => {
     let {token, user} = JSON.parse(localStorage.getItem('jwt'));
     console.log('user in jwt ', user);
     console.log('token ', token);
-    console.log('post in fetch ', formData);
+    console.log('post in fetch ', ...formData);
 
     
 

@@ -218,6 +218,7 @@ const CreatePost = props => {
         image={pictures}
         title={titleForPreview}
         desc={descForPreview}
+        categories={categories}
       />
       <button
         className="w3-button w3-margin w3-black w3-section w3-padding"

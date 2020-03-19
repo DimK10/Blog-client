@@ -33,8 +33,10 @@ const PreviewPost = (props) => {
     };
 
     useEffect(() => {
-        if(props.image.length > 0) {
+        if(props.image.length > 0 && typeof props.image !== "string") {
             createUrl();
+        } else {
+            setUrl(props.image);
         }
     },[props.image]);
     
@@ -66,6 +68,18 @@ const PreviewPost = (props) => {
                                             {` ${moment(props.state.post.created_at).date()} ${moment(props.state.post.created_at).month()} ${moment(props.state.post.created_at).year()}`}
                                         </p> 
                                     </div> */}
+                                    <div className="w3-row">
+                                    <div className="w3-container w3-left">
+                                        <p className="w3-opacity w3-left-align">
+                                            Tags - Categories: 
+                                        </p> 
+                                        {props.categories.map((element) =>{
+                                            console.log('category id', element._id);
+                                            return (<span className="w3-tag" key={element._id} style={{ marginRight: '5px' }}>{element.title}</span>)
+                                        })
+}
+                                    </div>
+                                </div>
                                 </div>
                             
                                 <div className="w3-left-align w3-margin-bottom" id="post-text">

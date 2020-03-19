@@ -6,11 +6,8 @@ import Modal from 'react-modal';
 import ImageUploader from 'react-images-upload';
 import FontAwesome from 'react-fontawesome';
 import {useForm} from 'react-hook-form';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-theme-lark';
 import RichTextEditor from '../core/RichTextEditor';
-import {createNewPost} from '../../API/apiService';
 import {fetchCategories} from '../../actions/blogApi';
 import {updatePost} from '../../API/posts/apiPosts';
 import {API} from '../../config';
@@ -20,15 +17,17 @@ const UpdatePost = props => {
   const [pictures, setPictures] = useState ([]);
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
+
+  const [imagePathForPreview, setImagePathForPreview] = useState('');
   const [titleForPreview, setTitleForPreview] = useState ('');
   const [descForPreview, setDescForPreview] = useState ('');
+  const [categoriesForPreview, setCategoriesForPreview] = useState([]);
+
   const [modalIsOpen, setModalIsOpen] = useState (false);
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
   const [categoryids, setCategoryIds] = useState([]);
   const {register, handleSubmit, watch, errors} = useForm ();
-
-  // const [firstRender, setFirstRender] = useState(true);
 
   const [categoriesToSelect, setCategoriesToSelect] = useState([]);
 
@@ -44,18 +43,11 @@ const UpdatePost = props => {
 
   const onSubmit = data => {
     let {title} = data;
-    console.log(title);
     let urlImg = undefined;
-    // if(pictures[0]) {
-    //   urlImg = window.URL.createObjectURL(pictures[0]);
-    // };
-    console.log('picture ', urlImg);
-    console.log('picture ', pictures[0]);
     let post = {_id: props.location.state.post._id, title, description: descForPreview, categories: []};
     if(pictures[0] !== undefined) {
       post = {...post, photo: pictures[0]};
     }
-    console.log(post);
     // TODO - Add categories with category id
 
     //Create formData
@@ -66,9 +58,8 @@ const UpdatePost = props => {
     formData.append('categories', JSON.stringify(categoryids));
   
     // Send post to server
-    updatePost(formData)
+    updatePost(formData, post._id)
     .then((data) => {
-      console.log('DATA IN CREATE POST ', data);
       if(data.error) {
         console.log('data error ', data.error );
         setError(data.error);
@@ -104,6 +95,7 @@ const UpdatePost = props => {
   };
 
   const handleCategoryDoubleClick = (categoryIndex) => {
+    console.log('categories to select ', categoriesToSelect);
     let categoriesToChoose = categoriesToSelect.map((category) => {
       if(categoryIndex === category._id) {
         return {...category, chosen: true }
@@ -113,23 +105,8 @@ const UpdatePost = props => {
 
 
     setCategoriesToSelect([...categoriesToChoose]);
-  };
 
-
-
-  const showSelectedCategories = (categoriesToSelect) => {
-    // if(categories.length > 0) {
-    //   return categories.map((category, index)=> (
-    //     <span
-    //       key={index}
-    //       className="w3-tag selected-category-item"
-    //     >
-    //       {category.title}  <FontAwesome name="times-circle" onClick={() => {deleteSelectedCategory(category._id)}} />
-    //     </span>
-    //   ))
-    // };
-
-    return 
+    addSelectedCategoriesForPreview(categoriesToChoose);
   };
 
   const deleteSelectedCategory = (categoryId) => {
@@ -141,25 +118,24 @@ const UpdatePost = props => {
     });
 
     setCategoriesToSelect([...categoriesToChoose]);
+
+    addSelectedCategoriesForPreview(categoriesToChoose);
   };
 
 
   useEffect(()=>{
+    console.log('categories to select ', categoriesToSelect);
+
     let categoriesIds = [];
     categoriesToSelect.map((category) => {
-      categoriesIds.push(category._id);
+      if(category.chosen) {
+        categoriesIds.push(category._id);
+      };
     });
 
     setCategoryIds([...categoriesIds]);
 
   },[categoriesToSelect])
-
-  useEffect (
-    () => {
-      console.log ('pictures in create post ', pictures);
-    },
-    [pictures]
-  );
 
   useEffect (
     () => {
@@ -175,16 +151,21 @@ const UpdatePost = props => {
   useEffect(() => {
     props.dispatch(fetchCategories());
 
-    imageUploader.current.state.pictures = [`${API}/post/image/${props.location.state.post._id}`];
-
-    setPostTitle(props.location.state.post.title);
-
     console.log('props.location.state.post ', props.location.state.post);
 
+    // set titleForPreview
+    setTitleForPreview(props.location.state.post.title);
+    setDescForPreview(props.location.state.post.description.replace(/"/gi, ''));
+
+    if(props.location.state.post.photoId) {
+      imageUploader.current.state.pictures = [`${API}/post/image/${props.location.state.post._id}`];
+      setImagePathForPreview(`${API}/post/image/${props.location.state.post._id}`);
+    };
+
+    setPostTitle(props.location.state.post.title);
     
     let categoriesToChoose = props.data.asyncCategoriesReducer.categories.map((category) => {
       let newCategory = { ...category, chosen: false }
-      console.log('NEW CATEGORY ', newCategory);
       return newCategory;
     });
 
@@ -194,10 +175,6 @@ const UpdatePost = props => {
     let selectedCategoriesIds = props.location.state.post.categories.map((category) => {
       return category._id;
     });
-
-    console.log('SELECTED CATEGORIES IDS ', selectedCategoriesIds);
-
-    // categoriesToChoose = [];
 
     let categoriesChosen = categoriesToChoose.map((category) => {
       let values = [];
@@ -216,74 +193,40 @@ const UpdatePost = props => {
       return {...category, chosen: false}
     });
 
-    // categoriesToChoose = selectedCategoriesIds.map((categoryId) => {
-    //   return categoriesToSelect.map((cat) => {
-    //     if(categoryId === cat._id) {
-    //       return {...cat, chosen: true };
-    //     };
-    //   });
-    // });
+      //setCategoriesForPreview
+    addSelectedCategoriesForPreview(categoriesChosen);
 
     setCategoriesToSelect([...categoriesChosen]);
     setCategories([...categoriesChosen]);
-
-    // Add to the right
-
-
-    
-
-    // setPostDescription(props.location.state.post.description);
-
-    
-    // simulateDoubleClickingActiveCategories();
   },[]);
 
-  useEffect(() => {
-    console.log('CATEGORIES TO SELECT NEW ', categoriesToSelect);
-  }, [categoriesToSelect]);
-
-  useEffect(() => {
-    // console.log('post desc that should be passed to richtexteditor ', postDescription);
-
-  }, [postDescription]);
-
-//   useEffect(() => {
-//     console.log('imageUploader ref ', imageUploader);
-
-//   }), [imageUploader.current];
-
-  // Helper useEffect, to update categoryIds immediately upon state category change
-  // useEffect(() => {
-  //   setCategoryIds(categories.map((category) => {
-  //     return category.category._id;
-  //   })); 
-  // }, [categories]);  
+  const addSelectedCategoriesForPreview = (categories) => {
+    let categoriesSelected = categories.filter((category) => {
+      return category.chosen === true;
+    })
+    console.log('categories chosen ', categoriesSelected);
+    setCategoriesForPreview([...categoriesSelected]);
+  };
 
   const renderErrorMessage = () => (
     <div className="w3-panel w3-pale-red w3-border errorMessage" style={{ display: error ? '' : 'none' }}>
       <div className="error">
           {'❌ ' + error}
       </div>
-      <div className="closeMessage">
-          <button 
-              className="w3-button closeIcon w3-hover-pale-red"
-              onClick={() =>{ 
-                  setError('');
-              }}
-          >
-              &times; 
-          </button>
-      </div>
+        <div className="closeMessage">
+            <button 
+                className="w3-button closeIcon w3-hover-pale-red"
+                onClick={() =>{ 
+                    setError('');
+                }}
+            >
+                &times; 
+            </button>
+        </div>
       </div>
   );
 
-  const handleInitialValue = (event) => {
-      
-  }
-
-
   const handleTitleChange = event => {
-    console.log ('title ', event.target.value);
     setTitleForPreview (event.target.value);
   };
 
@@ -304,9 +247,10 @@ const UpdatePost = props => {
     >
       <PreviewPost
         isPreview={true}
-        image={pictures}
+        image={imagePathForPreview}
         title={titleForPreview}
         desc={descForPreview}
+        categories={categoriesForPreview}
       />
       <button
         className="w3-button w3-margin w3-black w3-section w3-padding"
@@ -358,8 +302,7 @@ const UpdatePost = props => {
                   </label>
 
                 </div>
-                {/* <div style={{display: modalIsOpen ? 'none' : ''}}> */}
-                <RichTextEditor html={html} postDescription={props.location.state.post.description}/>
+                <RichTextEditor html={html} postDescription={props.location.state.post.description.replace(/"/gi, '')}/>
               </div>
               <div className="w3-row">
                 <label className="w3-left w3-margin-bottom">
@@ -385,24 +328,6 @@ const UpdatePost = props => {
                         {category.title}
                       </button>
                   ))}
-                    {/* {
-                        props.data.asyncCategoriesReducer.categories.map((category, index) => (
-                      <button
-                        key={index}
-                        className="w3-button w3-hover-light-blue category-item"
-                        onClick={(event) =>{
-                            event.preventDefault();
-                            handleCategoryClick(index)
-                          }}
-                        onDoubleClick={(event)=>{
-                            // Prevent form submission
-                            event.preventDefault();
-                            handleCategoryDoubleClick(index)
-                          }}
-                      >
-                        {category.title}
-                      </button>
-                    ))} */}
                   </div>
                   <div className="selected-categories">
                     {/* {showSelectedCategories(categoriesToSelect)} */}
